@@ -13,6 +13,7 @@ from LatinoAnalysis.Gardener.variables.efficiencies               import EffTrgF
 
 # id/isolation scale factors
 from LatinoAnalysis.Gardener.variables.idisoScaleFactors          import IdIsoSFFiller
+from LatinoAnalysis.Gardener.variables.idisoScaleFactorsStop      import IdIsoSFStopFiller
 
 
 
@@ -128,6 +129,7 @@ if __name__ == '__main__':
 
 # id/isolation scale factors
     modules['idisofiller'] = IdIsoSFFiller()
+    modules['idisostopfiller'] = IdIsoSFStopFiller()
 
 # specific variables for MC
 

@@ -184,6 +184,16 @@ Productions= {
                         #'puData'  : '/afs/cern.ch/user/x/xjanssen/public/Cert_246908-260627_13TeV_PromptReco_Collisions15_25ns_JSON_v2_from256630_PileupHistogram.root' ,
                       } ,
 
+  '03Feb2017_Summer16_stop_puRunBC' : {
+                        'isData'  : False ,
+                        'samples' : 'LatinoTrees/AnalysisStep/test/crab/samples/samples_summer16_susy.py' ,
+                        'dir'     : '/store/group/phys_higgs/cmshww/amassiro/RunII/2017/6Jan_RogueOne/MC/',
+                        'dirExt'  : 'LatinoTrees' ,
+                        'cmssw'   : 'Rereco2016' ,
+                        #'gDocID'  : '1wH73CYA_T4KMkl1Cw-xLTj8YG7OPqayDnP53N-lZwFQ' , # ???
+                        'puData'  : '/afs/cern.ch/user/s/scodella/scratch0/CRABTools/Luminosity/PileUp/PileupHistogram_Run2016BC_69.2mb.root' ,
+                      } ,
+
   '20May2016_Run2016B_PromptReco' : {
                         'isData'  : True ,        
                         'samples' : 'LatinoTrees/AnalysisStep/test/crab/samples/samples_data_2016_PromptReco.py',
@@ -711,6 +721,13 @@ Steps= {
                   'subTargets' : ['do_l2loose','puadder','baseW','wwNLL','genVariables','genMatchVariables','l2kin','l3kin','l4kin','BWEwkSinglet','BWEwkSinglet_JHUGen698','TopGenPt'],
                 },
 
+  'MCl2stop' :       {
+                  'isChain'    : True ,
+                  'do4MC'      : True ,
+                  'do4Data'    : False,
+                  'subTargets' : ['do_l2stop','puadder','baseW','wwNLL','genVariables','genMatchVariables','l2kin','l3kin','l4kin','BWEwkSinglet','BWEwkSinglet_JHUGen698','TopGenPt'],
+                },
+
   'puWbaseWFix' :     {
                   'isChain'    : True ,
                   'do4MC'      : True ,
@@ -723,6 +740,13 @@ Steps= {
                   'do4MC'      : False ,
                   'do4Data'    : True,
                   'subTargets' : ['do_l2loose','l2kin','l3kin','l4kin'],
+                },
+
+  'l2stop'  :       {
+                  'isChain'    : True ,
+                  'do4MC'      : False ,
+                  'do4Data'    : True,
+                  'subTargets' : ['do_l2stop','l2kin','l3kin','l4kin'],
                 },
 
   'l2vloose'  :       {
@@ -904,6 +928,130 @@ Steps= {
                   'do4MC'      : True ,
                   'do4Data'    : True ,
                   'subTargets' : ['do_lpTCorrMC','do_lpTCorrData','bPogSF','TrigEff','IdIsoSC','l2kin','l3kin','l4kin'],
+                  'XonlySample' : [
+                                  # DY 
+                                  'DYJetsToLL_M-10to50','DYJetsToLL_M-50','DYJetsToLL_M-10to50ext3', 'DYJetsToLL_M-50-LO' ,
+                                  'DY2JetsToLL', 'DY3JetsToLL', 'DY4JetsToLL',
+                                  'DYJetsToLL_M-50_HT-100to200_MLM' , 'DYJetsToLL_M-50_HT-100to200_MLM_ext' , 
+                                  'DYJetsToLL_M-50_HT-200to400_MLM' , 
+                                  'DYJetsToLL_M-50_HT-400to600_MLM' ,
+                                  'DYJetsToLL_M-50_HT-600toInf_MLM' ,
+                                  # WJets
+                                  'WJetsToLNu',
+                                  # Top
+                                  'TTTo2L2Nu','TTWJetsToLNu',
+                                  'ST_t-channel_antitop','ST_t-channel_top',
+                                  'ST_tW_antitop','ST_tW_top',
+                                  'TTToSemiLeptonic','TT',
+                                  # VV (including WW) 
+                                  'WWTo2L2Nu','GluGluWWTo2L2Nu_MCFM','GluGluWWTo2L2NuHiggs_MCFM',
+                                  'WZTo3LNu','WZ',
+                                  'ZZ','Zg',
+                                  'ZZTo2L2Nu','ZZTo2L2Q','ZZTo4L',
+                                  'Wg_AMCNLOFXFX', 
+                                  'Wg_MADGRAPHMLM',
+                                  'WZTo2L2Q',
+                                  # VVV
+                                  'WZZ','ZZZ','WWZ','WWW',
+                                  # Higgs 
+                                  'GluGluHToTauTau_M125', 'GluGluHToWWTo2L2Nu_M125','GluGluHToWWTo2L2NuPowheg_M125',
+                                  'GluGluHToWWTo2L2Nu_alternative_M125','VBFHToWWTo2L2Nu_alternative_M125',
+                                  'HWminusJ_HToTauTau_M125', 'HWminusJ_HToWW_M125',
+                                  'HWplusJ_HToTauTau_M125', 'HWplusJ_HToWW_M125',
+                                  'HZJ_HToTauTau_M125', 'HZJ_HToWW_M125',
+                                  'VBFHToTauTau_M125', 'VBFHToWWTo2L2Nu_M125',
+                                  'ggZH_HToWW_M125', # missing ggZHToTauTau
+                                  'ttHJetToNonbb_M125',
+                                  'GluGluHToZZTo4L_M125',
+                                  'GluGluZH_HToWWTo2L2Nu_M120_noHLT','GluGluZH_HToWWTo2L2Nu_M125_noHLT','GluGluZH_HToWWTo2L2Nu_M130_noHLT',
+                                  'HZJ_HToWWTo2L2Nu_M120_noHLT','HZJ_HToWWTo2L2Nu_M125_noHLT','HZJ_HToWWTo2L2Nu_M130_noHLT', 
+                                  'HWplusJ_WToLNu_HToWWTo2L2Nu_M125','HWminusJ_WToLNu_HToWWTo2L2Nu_M125',
+                                  # ... ggH High Mass
+                                  'GluGluHToWWTo2L2Nu_M130',
+                                  'GluGluHToWWTo2L2Nu_M135',
+                                  'GluGluHToWWTo2L2Nu_M140',
+                                  'GluGluHToWWTo2L2Nu_M145',
+                                  'GluGluHToWWTo2L2Nu_M150',
+                                  'GluGluHToWWTo2L2Nu_M155',
+                                  'GluGluHToWWTo2L2Nu_M160',
+                                  'GluGluHToWWTo2L2Nu_M165',
+                                  'GluGluHToWWTo2L2Nu_M170',
+                                  'GluGluHToWWTo2L2Nu_M175',
+                                  'GluGluHToWWTo2L2Nu_M180',
+                                  'GluGluHToWWTo2L2Nu_M190',
+                                  'GluGluHToWWTo2L2Nu_M200',
+                                  'GluGluHToWWTo2L2Nu_M210',
+                                  'GluGluHToWWTo2L2Nu_M230',
+                                  'GluGluHToWWTo2L2Nu_M250',
+                                  'GluGluHToWWTo2L2Nu_M270',
+                                  'GluGluHToWWTo2L2Nu_M300',
+                                  'GluGluHToWWTo2L2Nu_M350',
+                                  'GluGluHToWWTo2L2Nu_M400',
+                                  'GluGluHToWWTo2L2Nu_M450',
+                                  'GluGluHToWWTo2L2Nu_M500',
+                                  'GluGluHToWWTo2L2Nu_M550',
+                                  'GluGluHToWWTo2L2Nu_M600',
+                                  'GluGluHToWWTo2L2Nu_M650',
+                                  'GluGluHToWWTo2L2Nu_M700',
+                                  'GluGluHToWWTo2L2Nu_M750',
+                                  'GluGluHToWWTo2L2Nu_M750_NWA',
+                                  'GluGluHToWWTo2L2Nu_M800',
+                                  'GluGluHToWWTo2L2Nu_M900',
+                                  'GluGluHToWWTo2L2Nu_M1000',
+                                  # ... VBF High Mass
+                                  'VBFHToWWTo2L2Nu_M130',
+                                  'VBFHToWWTo2L2Nu_M135',
+                                  'VBFHToWWTo2L2Nu_M140',
+                                  'VBFHToWWTo2L2Nu_M145',
+                                  'VBFHToWWTo2L2Nu_M150',
+                                  'VBFHToWWTo2L2Nu_M155',
+                                  'VBFHToWWTo2L2Nu_M160',
+                                  'VBFHToWWTo2L2Nu_M165',
+                                  'VBFHToWWTo2L2Nu_M170',
+                                  'VBFHToWWTo2L2Nu_M175',
+                                  'VBFHToWWTo2L2Nu_M180',
+                                  'VBFHToWWTo2L2Nu_M190',
+                                  'VBFHToWWTo2L2Nu_M200',
+                                  'VBFHToWWTo2L2Nu_M210',
+                                  'VBFHToWWTo2L2Nu_M230',
+                                  'VBFHToWWTo2L2Nu_M250',
+                                  'VBFHToWWTo2L2Nu_M270',
+                                  'VBFHToWWTo2L2Nu_M300',
+                                  'VBFHToWWTo2L2Nu_M350',
+                                  'VBFHToWWTo2L2Nu_M400',
+                                  'VBFHToWWTo2L2Nu_M450',
+                                  'VBFHToWWTo2L2Nu_M500',
+                                  'VBFHToWWTo2L2Nu_M550',
+                                  'VBFHToWWTo2L2Nu_M600',
+                                  'VBFHToWWTo2L2Nu_M650',
+                                  'VBFHToWWTo2L2Nu_M700',
+                                  'VBFHToWWTo2L2Nu_M750',
+                                  'VBFHToWWTo2L2Nu_M750_NWA',
+                                  'VBFHToWWTo2L2Nu_M800',
+                                  'VBFHToWWTo2L2Nu_M900',
+                                  'VBFHToWWTo2L2Nu_M1000',
+                                  # PS
+                                  'GluGluHToWWTo2L2NuHerwigPS_M125','VBFHToWWTo2L2NuHerwigPS_M125','WWTo2L2NuHerwigPS',
+                                  # UE
+                                  'GluGluHToWWTo2L2Nu_M125_CUETDown',
+                                  'GluGluHToWWTo2L2Nu_M125_CUETUp',
+                                  'VBFHToWWTo2L2Nu_M125_CUETDown',
+                                  'VBFHToWWTo2L2Nu_M125_CUETUp',
+                                  'WWTo2L2Nu_CUETDown',
+                                  'WWTo2L2Nu_CUETUp',
+ 			  # VBS
+ 			  'WpWpJJ_EWK','WpWpJJ_EWK_QCD','WpWpJJ_QCD','WW_DoubleScattering','WLLJJToLNu_M-4to60_EWK_QCD','WLLJJToLNu_M-60_EWK_QCD',
+                          'WGJJ','EWKZ2Jets','TTToSemiLeptonic',
+                                  # VBF 
+                                  'WpWmJJ_EWK_QCD_noTop','WpWmJJ_QCD_noTop', 'WpWmJJ_EWK_noTop',
+                                 ] ,
+                },
+
+  'bSFL2pTEffBCStop'   :   {
+                  'isChain'    : True ,
+                  'do4MC'      : True ,
+                  'do4Data'    : True ,
+                  'subTargets' : ['do_lpTCorrMC','do_lpTCorrData','bPogSF','TrigEffBC','IdIsoSCStop','l2kin','l3kin','l4kin'],
                   'XonlySample' : [
                                   # DY 
                                   'DYJetsToLL_M-10to50','DYJetsToLL_M-50','DYJetsToLL_M-10to50ext3', 'DYJetsToLL_M-50-LO' ,
@@ -2973,6 +3121,13 @@ Steps= {
                   'command'    : 'gardener.py puadder --data=RPLME_puData --HistName=pileup --branch=puW --kind=trpu '
                 } ,
 
+  #'puBC'   : {
+   #               'isChain'    : False ,
+   #               'do4MC'      : True  ,
+   #               'do4Data'    : False ,
+   #               'command'    : 'gardener.py puadder --data=/... --HistName=pileup --branch=puWBC --kind=trpu '
+   #             }, 
+
   'pu2p6'   : {
                   'isChain'    : False ,
                   'do4MC'      : True  ,
@@ -3307,6 +3462,14 @@ Steps= {
                   'command'    : 'gardener.py l2selfiller --kind 2 --cmssw RPLME_CMSSW --selection 1'
                },
 
+
+  'do_l2stop'    : {
+                  'isChain'    : False ,
+                  'do4MC'      : True  ,
+                  'do4Data'    : True  ,
+                  'command'    : 'gardener.py l2selfiller --kind 5 --cmssw RPLME_CMSSW --selection 1'
+               },
+
   'do_l2vloose'    : {
                   'isChain'    : False ,
                   'do4MC'      : True  ,
@@ -3363,6 +3526,14 @@ Steps= {
                # 0.497 /fb
 
 
+  'IdIsoSCStop' : {
+                  'isChain'    : False ,
+                  'do4MC'      : True  ,
+                  'do4Data'    : False  ,
+                  'command'    : 'gardener.py idisostopfiller  --readfastsim=1 --cmssw=RPLME_CMSSW'
+                  },
+
+
   'TrigEff'  : {
                   'isChain'    : False ,
                   'do4MC'      : True  ,
@@ -3374,6 +3545,13 @@ Steps= {
                # then 0.595 / 4.0 = 0.15
                # then 0.595 / (2.791 + 1.546 + 1.549 + 0.378) = 0.595 / 6.264 = 0.095
                # then 0.595 / 12.2950 =    0.0483937
+
+  'TrigEffBC'  : {
+                  'isChain'    : False ,
+                  'do4MC'      : True  ,
+                  'do4Data'    : False  , # 0.595/8.580
+                  'command'    : 'gardener.py efftfiller  --fixMuonTriggerLumiRatio=0.0693473   --cmssw=RPLME_CMSSW'
+               }, 
 
 
   'hadd'     : {
