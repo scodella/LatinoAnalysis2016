@@ -83,6 +83,9 @@ class batchJobs :
            jFile.write("mkdir /tmp/$LSB_JOBID \n")
            jFile.write("cd /tmp/$LSB_JOBID \n")
            jFile.write("pwd \n")
+         elif 'ifca' in os.uname()[1]:
+           jFile.write("mkdir /tmp/"+os.environ["USER"]+"/latinos \n") 
+           jFile.write("cd /tmp/"+os.environ["USER"]+"/latinos \n") 
          else:
            jFile.write('cd - \n')
        else              : jFile.write('cd '+wDir+' \n')
@@ -177,7 +180,7 @@ class batchJobs :
      if 'iihe' in os.uname()[1] :
         jFile.write('lcg-cp '+inputFile+' srm://maite.iihe.ac.be:8443/pnfs/iihe/cms'+outputFile+'\n')
      elif 'ifca' in os.uname()[1] :
-        jFile.write('mv '+inputFile+' '+outputFile+'\n')
+        jFile.write('mv '+inputFile+' /gpfs/gaes/cms'+outputFile+'\n')
      elif "pi.infn.it" in socket.getfqdn():   
         jFile.write('lcg-cp '+inputFile+' srm://stormfe1.pi.infn.it:8444/srm/managerv2?SFN=/cms'+outputFile+'\n')
      elif 'knu' in os.uname()[1] :
@@ -263,7 +266,7 @@ def lsListCommand(inputDir):
     if 'iihe' in os.uname()[1] :
         return "ls -1 /pnfs/iihe/cms" + inputDir
     elif 'ifca' in os.uname()[1] :
-        return "ls " + inputDir
+        return "ls /gpfs/gaes/cms/" + inputDir
     elif "pi.infn.it" in socket.getfqdn():
         return "ls /gpfs/ddn/srm/cms/" + inputDir
     elif "knu" in os.uname()[1]:
@@ -277,6 +280,8 @@ def rootReadPath(inputFile):
         return "dcap://maite.iihe.ac.be/pnfs/iihe/cms" + inputFile
     elif "pi.infn.it" in socket.getfqdn():
       return "/gpfs/ddn/srm/cms/" + inputFile
+    elif 'ifca' in os.uname()[1] :
+      return "/gpfs/gaes/cms/" + inputFile
     elif 'knu' in os.uname()[1] :
       return "dcap://cluster142.knu.ac.kr//pnfs/knu.ac.kr/data/cms" + inputFile
     else :
@@ -287,7 +292,7 @@ def remoteFileSize(inputFile):
     if 'iihe' in os.uname()[1] :
         return subprocess.check_output("ls -l /pnfs/iihe/cms" + inputFile + " | cut -d ' ' -f 5", shell=True)
     elif 'ifca' in os.uname()[1] :
-        return subprocess.check_output("ls -l " + inputFile + " | cut -d ' ' -f 5", shell=True)
+        return subprocess.check_output("ls -l /gpfs/gaes/cms/" + inputFile + " | cut -d ' ' -f 5", shell=True)
     elif "pi.infn.it" in socket.getfqdn():
         return subprocess.check_output("ls -l /gpfs/ddn/srm/cms/" + inputFile + " | cut -d ' ' -f 5", shell=True)
     elif "knu" in os.uname()[1]:

@@ -1247,6 +1247,14 @@ Steps= {
                   'subTargets' : ['TrigEff_Cut','IdIsoSC_Cut']
                     },
 
+  'bSFLepEffCut' :  {
+                  'isChain'    : True ,
+                  'do4MC'      : True ,
+                  'do4Data'    : False ,
+                  'subTargets' : ['bPogSF','TrigMakerMC','IdIsoSC']
+                    },
+  
+
 
   'puextra'      :   {
                   'isChain'    : True ,
@@ -3768,6 +3776,7 @@ Steps= {
                   'command'    : 'gardener.py idisofiller  --isoideleAltLumiRatio=0.0135 --cmssw=RPLME_CMSSW --idEleKind=cut_WP_Tight80X'
                },
 
+# Old trigger module
 
   'IdIsoSCStop' : {
                   'isChain'    : False ,
@@ -3796,14 +3805,16 @@ Steps= {
                   'command'    : 'gardener.py efftfiller  --fixMuonTriggerLumiRatio=0.0135   --cmssw=RPLME_CMSSW'
                },
 
-  'TrigMaker'    : {
+# New trigger module
+
+  'TrigMakerMC'    : {
                   'isChain'    : False ,
                   'do4MC'      : True  ,
                   'do4Data'    : False  ,
                   'command'    : 'gardener.py trigMaker  --cmssw=RPLME_CMSSW'
                  },
 
- 'TrigMakerData'    : {
+  'TrigMakerData'    : {
                   'isChain'    : False ,
                   'do4MC'      : False  ,
                   'do4Data'    : True  ,
