@@ -3676,7 +3676,7 @@ Steps= {
                   'isChain'    : False ,
                   'do4MC'      : True  ,
                   'do4Data'    : True  ,
-                  'command'    : 'gardener.py l2selfiller --kind 5 --cmssw RPLME_CMSSW --selection 1'
+                  'command'    : 'gardener.py l2selfiller --kind 5 --cmssw RPLME_CMSSW --selection 1 --idEleKind RPLME_LepKind'
                },
 
   'do_l2vloose'    : {
@@ -3782,7 +3782,7 @@ Steps= {
                   'isChain'    : False ,
                   'do4MC'      : True  ,
                   'do4Data'    : False  ,
-                  'command'    : 'gardener.py idisostopfiller  --readfastsim=1 --cmssw=RPLME_CMSSW'
+                  'command'    : 'gardener.py idisostopfiller  --readfastsim=1 --cmssw=RPLME_CMSSW --idLepKind RPLME_LepKind'
                   },
 
 

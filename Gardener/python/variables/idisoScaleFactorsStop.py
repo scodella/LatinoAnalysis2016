@@ -30,6 +30,7 @@ class IdIsoSFStopFiller(TreeCloner):
         group = optparse.OptionGroup(parser,self.label, description)
         group.add_option('-c', '--cmssw', dest='cmssw', help='cmssw version (naming convention may change)', default='ICHEP2016', type='string')
         group.add_option('-f', '--readfastsim', dest='readfastsim', help='read FastSim SFs', default=0, type='int')
+        group.add_option( '--idLepKind' , dest='idLepKind', help='kind of lepton id', default=None) 
         parser.add_option_group(group)
         return group
 
@@ -80,93 +81,100 @@ class IdIsoSFStopFiller(TreeCloner):
             self.fileFastSimElectronIdIso = self._openRootFile(cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/idiso/ICHEP2016/Stop/sf_el_tightCB_MultiVT__FastSim.root')
             self.FastSimElIdIso = self._getRootObj(self.fileFastSimElectronIdIso,   'histo2D')
             
-        elif opts.cmssw == "Rereco2016" : 
+        elif opts.cmssw == "Full2016" : 
             
-            # https://twiki.cern.ch/twiki/bin/view/CMS/SUSLeptonSF#Scale_Factors_for_Moriond2017
-            self.fileMuonId = self._openRootFile(cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/idiso/Full2016/Stop/TnP_NUM_MediumID_DENOM_generalTracks_VAR_map_pt_eta.root') 
-            self.fileMuonIso = self._openRootFile(cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/idiso/Full2016/Stop/TnP_NUM_RelIsoVTight_DENOM_MediumID_VAR_map_pt_eta.root') 
-            self.fileMuonIP2D = self._openRootFile(cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/idiso/Full2016/Stop/TnP_NUM_TightIP2D_DENOM_MediumID_VAR_map_pt_eta.root')
-            self.fileMuonIP3D = self._openRootFile(cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/idiso/Full2016/Stop/TnP_NUM_TightIP3D_DENOM_MediumID_VAR_map_pt_eta.root') 
+            if opts.idLepKind == "Ghent" : 
 
-            self.MuId   = self._getRootObj(self.fileMuonId,   'SF')
-            self.MuIso  = self._getRootObj(self.fileMuonIso,  'pt_abseta_ratio')  
-            self.MuIP2D = self._getRootObj(self.fileMuonIP2D, 'SF') 
-            self.MuIP3D = self._getRootObj(self.fileMuonIP3D, 'SF')
+                # https://twiki.cern.ch/twiki/bin/view/CMS/SUSLeptonSF#Scale_Factors_for_Moriond2017
+                self.fileMuonId = self._openRootFile(cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/idiso/Full2016/Stop/TnP_NUM_MediumID_DENOM_generalTracks_VAR_map_pt_eta.root') 
+                self.fileMuonIso = self._openRootFile(cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/idiso/Full2016/Stop/TnP_NUM_RelIsoVTight_DENOM_MediumID_VAR_map_pt_eta.root') 
+                self.fileMuonIP2D = self._openRootFile(cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/idiso/Full2016/Stop/TnP_NUM_TightIP2D_DENOM_MediumID_VAR_map_pt_eta.root')
+                self.fileMuonIP3D = self._openRootFile(cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/idiso/Full2016/Stop/TnP_NUM_TightIP3D_DENOM_MediumID_VAR_map_pt_eta.root') 
+                
+                self.MuId   = self._getRootObj(self.fileMuonId,   'SF')
+                self.MuIso  = self._getRootObj(self.fileMuonIso,  'pt_abseta_ratio')  
+                self.MuIP2D = self._getRootObj(self.fileMuonIP2D, 'SF') 
+                self.MuIP3D = self._getRootObj(self.fileMuonIP3D, 'SF')
+                
+                # See also https://twiki.cern.ch/twiki/bin/view/CMS/MuonWorkInProgressAndPagResults  --> TOBEUPDATED
+                self.fileMuonReco = self._openRootFile(cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/idiso/ICHEP2016/Stop/ratios_MuonTrk.root')
+                self.MuReco = self._getRootObj(self.fileMuonReco, 'ratio_eta') 
+            
+                # https://twiki.cern.ch/twiki/bin/view/CMS/SUSLeptonSF#FullSim_FastSim_TTBar_MC_compari  --> TOBEUPDATED
+                self.fileFastSimMuonId = self._openRootFile(cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/idiso/ICHEP2016/Stop/sf_mu_medium.root') 
+                self.fileFastSimMuonIso = self._openRootFile(cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/idiso/ICHEP2016/Stop/sf_mu_mediumID_multiVT.root') 
+                self.fileFastSimMuonIP2D = self._openRootFile(cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/idiso/ICHEP2016/Stop/sf_mu_tightIP2D.root')
+                self.fileFastSimMuonIP3D = self._openRootFile(cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/idiso/ICHEP2016/Stop/sf_mu_tightIP3D.root')
+                
+                self.FastSimMuId   = self._getRootObj(self.fileFastSimMuonId,   'histo2D')
+                self.FastSimMuIso  = self._getRootObj(self.fileFastSimMuonIso,  'histo2D') 
+                self.FastSimMuIP2D = self._getRootObj(self.fileFastSimMuonIP2D, 'histo2D') 
+                self.FastSimMuIP3D = self._getRootObj(self.fileFastSimMuonIP3D, 'histo2D') 
+                
+                # https://twiki.cern.ch/twiki/bin/viewauth/CMS/SUSLeptonSF#Data_leading_order_FullSim_M_AN1
+                self.fileElectronIdIso = self._openRootFile(cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/idiso/Full2016/Stop/scaleFactors_electrons.root')
+                self.ElId   = self._getRootObj(self.fileElectronIdIso,  'GsfElectronToCutBasedStopsDilepton')
+                self.ElIso  = self._getRootObj(self.fileElectronIdIso,  'CutBasedStopsDileptonToRelIso012')
 
-            # See also https://twiki.cern.ch/twiki/bin/view/CMS/MuonWorkInProgressAndPagResults  --> TOBEUPDATED
-            self.fileMuonReco = self._openRootFile(cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/idiso/ICHEP2016/Stop/ratios_MuonTrk.root')
-            self.MuReco = self._getRootObj(self.fileMuonReco, 'ratio_eta') 
+                # See also https://twiki.cern.ch/twiki/bin/view/CMS/EgammaIDRecipesRun2#Electron_efficiencies_and_scale
+                self.fileElectronReco = self._openRootFile(cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/idiso/Full2016/Stop/egammaEffi.txt_EGM2D.root')
+                self.ElReco = self._getRootObj(self.fileElectronReco,  'EGamma_SF2D')
             
-            # https://twiki.cern.ch/twiki/bin/view/CMS/SUSLeptonSF#FullSim_FastSim_TTBar_MC_compari  --> TOBEUPDATED
-            self.fileFastSimMuonId = self._openRootFile(cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/idiso/ICHEP2016/Stop/sf_mu_medium.root') 
-            self.fileFastSimMuonIso = self._openRootFile(cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/idiso/ICHEP2016/Stop/sf_mu_mediumID_multiVT.root') 
-            self.fileFastSimMuonIP2D = self._openRootFile(cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/idiso/ICHEP2016/Stop/sf_mu_tightIP2D.root')
-            self.fileFastSimMuonIP3D = self._openRootFile(cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/idiso/ICHEP2016/Stop/sf_mu_tightIP3D.root')
+                # https://twiki.cern.ch/twiki/bin/viewauth/CMS/SUSLeptonSF#FullSim_FastSim_TTBar_MC_com_AN1  --> TOBEUPDATED
+                self.fileFastSimElectronIdIso = self._openRootFile(cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/idiso/ICHEP2016/Stop/sf_el_tightCB_MultiVT__FastSim.root')
+                self.FastSimElIdIso = self._getRootObj(self.fileFastSimElectronIdIso,   'histo2D')
             
-            self.FastSimMuId   = self._getRootObj(self.fileFastSimMuonId,   'histo2D')
-            self.FastSimMuIso  = self._getRootObj(self.fileFastSimMuonIso,  'histo2D') 
-            self.FastSimMuIP2D = self._getRootObj(self.fileFastSimMuonIP2D, 'histo2D') 
-            self.FastSimMuIP3D = self._getRootObj(self.fileFastSimMuonIP3D, 'histo2D') 
+            elif opts.idLepKind == "POG" : 
+            
+                # 
+                self.fileMuonId = self._openRootFile(cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/idiso/Full2016/Stop/EfficienciesAndSF_GH_ID.root') 
+                self.fileMuonIso = self._openRootFile(cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/idiso/Full2016/Stop/EfficienciesAndSF_GH_ISO.root') 
+                self.fileMuonIdBF = self._openRootFile(cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/idiso/Full2016/Stop/EfficienciesAndSF_BCDEF_ID.root') 
+                self.fileMuonIsoBF = self._openRootFile(cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/idiso/Full2016/Stop/EfficienciesAndSF_BCDEF_ISO.root') 
+                self.fileMuonIP2D = self._openRootFile(cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/idiso/Full2016/Stop/TnP_NUM_TightIP2D_DENOM_MediumID_VAR_map_pt_eta.root')
+                self.fileMuonIP3D = self._openRootFile(cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/idiso/Full2016/Stop/TnP_NUM_TightIP3D_DENOM_MediumID_VAR_map_pt_eta.root') 
+                
+                self.MuId    = self._getRootObj(self.fileMuonId,    'MC_NUM_MediumID2016_DEN_genTracks_PAR_pt_eta/pt_abseta_ratio')
+                self.MuIso   = self._getRootObj(self.fileMuonIso,   'TightISO_MediumID_pt_eta/pt_abseta_ratio')
+                self.MuIdBF  = self._getRootObj(self.fileMuonIdBF,  'MC_NUM_MediumID2016_DEN_genTracks_PAR_pt_eta/pt_abseta_ratio')
+                self.MuIsoBF = self._getRootObj(self.fileMuonIsoBF, 'TightISO_MediumID_pt_eta/pt_abseta_ratio')  
+                self.MuIP2D  = self._getRootObj(self.fileMuonIP2D,  'SF') 
+                self.MuIP3D  = self._getRootObj(self.fileMuonIP3D,  'SF')
 
-            # https://twiki.cern.ch/twiki/bin/viewauth/CMS/SUSLeptonSF#Data_leading_order_FullSim_M_AN1
-            self.fileElectronIdIso = self._openRootFile(cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/idiso/Full2016/Stop/scaleFactors_electrons.root')
-            self.ElId   = self._getRootObj(self.fileElectronIdIso,  'GsfElectronToCutBasedStopsDilepton')
-            self.ElIso  = self._getRootObj(self.fileElectronIdIso,  'CutBasedStopsDileptonToRelIso012')
+                # See also https://twiki.cern.ch/twiki/bin/view/CMS/MuonWorkInProgressAndPagResults  --> TOBEUPDATED
+                self.fileMuonReco = self._openRootFile(cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/idiso/ICHEP2016/Stop/ratios_MuonTrk.root')
+                self.MuReco = self._getRootObj(self.fileMuonReco, 'ratio_eta') 
+            
+                # https://twiki.cern.ch/twiki/bin/view/CMS/SUSLeptonSF#FullSim_FastSim_TTBar_MC_compari  --> TOBEUPDATED
+                self.fileFastSimMuonId = self._openRootFile(cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/idiso/ICHEP2016/Stop/sf_mu_medium.root') 
+                self.fileFastSimMuonIso = self._openRootFile(cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/idiso/ICHEP2016/Stop/sf_mu_mediumID_multiVT.root') 
+                self.fileFastSimMuonIP2D = self._openRootFile(cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/idiso/ICHEP2016/Stop/sf_mu_tightIP2D.root')
+                self.fileFastSimMuonIP3D = self._openRootFile(cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/idiso/ICHEP2016/Stop/sf_mu_tightIP3D.root')
+            
+                self.FastSimMuId   = self._getRootObj(self.fileFastSimMuonId,   'histo2D')
+                self.FastSimMuIso  = self._getRootObj(self.fileFastSimMuonIso,  'histo2D') 
+                self.FastSimMuIP2D = self._getRootObj(self.fileFastSimMuonIP2D, 'histo2D') 
+                self.FastSimMuIP3D = self._getRootObj(self.fileFastSimMuonIP3D, 'histo2D') 
 
-            # See also https://twiki.cern.ch/twiki/bin/view/CMS/EgammaIDRecipesRun2#Electron_efficiencies_and_scale
-            self.fileElectronReco = self._openRootFile(cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/idiso/Full2016/Stop/egammaEffi.txt_EGM2D.root')
-            self.ElReco = self._getRootObj(self.fileElectronReco,  'EGamma_SF2D')
-            
-            # https://twiki.cern.ch/twiki/bin/viewauth/CMS/SUSLeptonSF#FullSim_FastSim_TTBar_MC_com_AN1  --> TOBEUPDATED
-            self.fileFastSimElectronIdIso = self._openRootFile(cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/idiso/ICHEP2016/Stop/sf_el_tightCB_MultiVT__FastSim.root')
-            self.FastSimElIdIso = self._getRootObj(self.fileFastSimElectronIdIso,   'histo2D')
-            
-        elif opts.cmssw == "POGMoriond17" : 
-            
-            # 
-            self.fileMuonId = self._openRootFile(cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/idiso/Full2016/Stop/EfficienciesAndSF_GH_ID.root') 
-            self.fileMuonIso = self._openRootFile(cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/idiso/Full2016/Stop/EfficienciesAndSF_GH_ISO.root') 
-            self.fileMuonIdBF = self._openRootFile(cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/idiso/Full2016/Stop/EfficienciesAndSF_BCDEF_ID.root') 
-            self.fileMuonIsoBF = self._openRootFile(cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/idiso/Full2016/Stop/EfficienciesAndSF_BCDEF_ISO.root') 
-            self.fileMuonIP2D = self._openRootFile(cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/idiso/Full2016/Stop/TnP_NUM_TightIP2D_DENOM_MediumID_VAR_map_pt_eta.root')
-            self.fileMuonIP3D = self._openRootFile(cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/idiso/Full2016/Stop/TnP_NUM_TightIP3D_DENOM_MediumID_VAR_map_pt_eta.root') 
+                # https://twiki.cern.ch/twiki/bin/viewauth/CMS/SUSLeptonSF#Data_leading_order_FullSim_M_AN1
+                self.fileElectronIdIso = self._openRootFile(cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/idiso/Full2016/Stop/egammaEffi.txt_EGM2D_idiso.root')
+                self.ElIdIso   = self._getRootObj(self.fileElectronIdIso,  'EGamma_SF2D')
 
-            self.MuId    = self._getRootObj(self.fileMuonId,    'MC_NUM_MediumID2016_DEN_genTracks_PAR_pt_eta/pt_abseta_ratio')
-            self.MuIso   = self._getRootObj(self.fileMuonIso,   'TightISO_MediumID_pt_eta/pt_abseta_ratio')
-            self.MuIdBF  = self._getRootObj(self.fileMuonIdBF,  'MC_NUM_MediumID2016_DEN_genTracks_PAR_pt_eta/pt_abseta_ratio')
-            self.MuIsoBF = self._getRootObj(self.fileMuonIsoBF, 'TightISO_MediumID_pt_eta/pt_abseta_ratio')  
-            self.MuIP2D  = self._getRootObj(self.fileMuonIP2D,  'SF') 
-            self.MuIP3D  = self._getRootObj(self.fileMuonIP3D,  'SF')
-
-            # See also https://twiki.cern.ch/twiki/bin/view/CMS/MuonWorkInProgressAndPagResults  --> TOBEUPDATED
-            self.fileMuonReco = self._openRootFile(cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/idiso/ICHEP2016/Stop/ratios_MuonTrk.root')
-            self.MuReco = self._getRootObj(self.fileMuonReco, 'ratio_eta') 
+                # See also https://twiki.cern.ch/twiki/bin/view/CMS/EgammaIDRecipesRun2#Electron_efficiencies_and_scale
+                self.fileElectronReco = self._openRootFile(cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/idiso/Full2016/Stop/egammaEffi.txt_EGM2D.root')
+                self.ElReco = self._getRootObj(self.fileElectronReco,  'EGamma_SF2D')
             
-            # https://twiki.cern.ch/twiki/bin/view/CMS/SUSLeptonSF#FullSim_FastSim_TTBar_MC_compari  --> TOBEUPDATED
-            self.fileFastSimMuonId = self._openRootFile(cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/idiso/ICHEP2016/Stop/sf_mu_medium.root') 
-            self.fileFastSimMuonIso = self._openRootFile(cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/idiso/ICHEP2016/Stop/sf_mu_mediumID_multiVT.root') 
-            self.fileFastSimMuonIP2D = self._openRootFile(cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/idiso/ICHEP2016/Stop/sf_mu_tightIP2D.root')
-            self.fileFastSimMuonIP3D = self._openRootFile(cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/idiso/ICHEP2016/Stop/sf_mu_tightIP3D.root')
+                # https://twiki.cern.ch/twiki/bin/viewauth/CMS/SUSLeptonSF#FullSim_FastSim_TTBar_MC_com_AN1  --> TOBEUPDATED
+                self.fileFastSimElectronIdIso = self._openRootFile(cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/idiso/ICHEP2016/Stop/sf_el_tightCB_MultiVT__FastSim.root')
+                self.FastSimElIdIso = self._getRootObj(self.fileFastSimElectronIdIso,   'histo2D')
             
-            self.FastSimMuId   = self._getRootObj(self.fileFastSimMuonId,   'histo2D')
-            self.FastSimMuIso  = self._getRootObj(self.fileFastSimMuonIso,  'histo2D') 
-            self.FastSimMuIP2D = self._getRootObj(self.fileFastSimMuonIP2D, 'histo2D') 
-            self.FastSimMuIP3D = self._getRootObj(self.fileFastSimMuonIP3D, 'histo2D') 
-
-            # https://twiki.cern.ch/twiki/bin/viewauth/CMS/SUSLeptonSF#Data_leading_order_FullSim_M_AN1
-            self.fileElectronIdIso = self._openRootFile(cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/idiso/Full2016/Stop/egammaEffi.txt_EGM2D_idiso.root')
-            self.ElIdIso   = self._getRootObj(self.fileElectronIdIso,  'EGamma_SF2D')
-
-            # See also https://twiki.cern.ch/twiki/bin/view/CMS/EgammaIDRecipesRun2#Electron_efficiencies_and_scale
-            self.fileElectronReco = self._openRootFile(cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/idiso/Full2016/Stop/egammaEffi.txt_EGM2D.root')
-            self.ElReco = self._getRootObj(self.fileElectronReco,  'EGamma_SF2D')
-            
-            # https://twiki.cern.ch/twiki/bin/viewauth/CMS/SUSLeptonSF#FullSim_FastSim_TTBar_MC_com_AN1  --> TOBEUPDATED
-            self.fileFastSimElectronIdIso = self._openRootFile(cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/idiso/ICHEP2016/Stop/sf_el_tightCB_MultiVT__FastSim.root')
-            self.FastSimElIdIso = self._getRootObj(self.fileFastSimElectronIdIso,   'histo2D')
-            
-        self.cmssw = opts.cmssw
+        self.cmssw       = opts.cmssw
         self.readfastsim = opts.readfastsim
+        self.idLepKind   = opts.idLepKind
+
+        print " cmssw         = ", self.cmssw
+        print " readfastsim   = ", self.readfastsim
+        print " idLepKind     = ", self.idLepKind
 
     # X axis: Pt, Y axis: abs(Eta)        
     def _getHistoValuePtAbsEta(self, h2, pt, eta):
@@ -231,7 +239,7 @@ class IdIsoSFStopFiller(TreeCloner):
                 scaleFactor = 1.
                 relative_error_scaleFactor = 0.
 
-                if opts.cmssw != "POGMoriond17" :
+                if self.idLepKind != "POG" :
                     IdSF,  IdSFErr  = self._getHistoValuePtAbsEta(self.ElId,  pt, eta)
                     IsoSF, IsoSFErr = self._getHistoValuePtAbsEta(self.ElIso, pt, eta)
                     scaleFactor = IdSF*IsoSF
@@ -255,7 +263,7 @@ class IdIsoSFStopFiller(TreeCloner):
                 IP2DSF, IP2DSFErr = self._getHistoValuePtAbsEta(self.MuIP2D, pt, eta)
                 IP3DSF, IP3DSFErr = self._getHistoValuePtAbsEta(self.MuIP3D, pt, eta)
 
-                if opts.cmssw == "POGMoriond17" :
+                if self.idLepKind == "POG" :
                     toss_a_coin = ROOT.gRandom.Rndm()
                     if toss_a_coin < 19.72/35.87 :
                         IdSF,   IdSFErr   = self._getHistoValuePtAbsEta(self.MuIdBF,   pt, eta)
@@ -265,7 +273,7 @@ class IdIsoSFStopFiller(TreeCloner):
 
                 # This includes systematic errors. Put on statistics because of how it's written AnalysisCMS  
                 relative_error_scaleFactor = 0.03
-                if opts.cmssw == "POGMoriond17" : # Preliminary
+                if self.idLepKind == "POG" : # Preliminary
                     relative_error_scaleFactor = math.sqrt( (IdSFErr/IdSF)*(IdSFErr/IdSF) + 0.01*0.01
                                                             (IsoSFErr/IsoSF)*(IsoSFErr/IsoSF) + 0.005*0.005 )
                 scaleFactor_do = scaleFactor*(1. -  relative_error_scaleFactor)
@@ -285,17 +293,17 @@ class IdIsoSFStopFiller(TreeCloner):
 
                 relative_error_pt = 0.
                 if pt < 20 :
-                    if opts.cmssw == "ICHEP2016" :
+                    if self.cmssw == "ICHEP2016" :
                         relative_error_pt = 0.03
-                    elif opts.cmssw == "Rereco2016" :
+                    elif self.cmssw == "Full2016" :
                         relative_error_pt = 0.01
                     pt = 20
                 elif pt > 80 :
-                    if opts.cmssw == "Rereco2016" :
+                    if self.cmssw == "Full2016" :
                         relative_error_pt = 0.01
 
                 relative_error_pu = 0.
-                if opts.cmssw == "ICHEP2016" :
+                if self.cmssw == "ICHEP2016" :
                     relative_error_pu = 0.01
 
                 RecoSF, RecoSFErr  = self._getHistoValueEtaPt(self.ElReco,  pt, eta)
