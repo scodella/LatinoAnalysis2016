@@ -1519,7 +1519,14 @@ Steps= {
                                   # VBF 
                                   'WpWmJJ_EWK_QCD_noTop','WpWmJJ_QCD_noTop', 'WpWmJJ_EWK_noTop',
                                  ] ,
-                },
+                }, 
+
+  'bSFL2pTEffStop'   :   {
+                  'isChain'    : True ,
+                  'do4MC'      : True ,
+                  'do4Data'    : True ,
+                  'subTargets' : ['do_lpTCorrMC','do_lpTCorrData','bPogSF','TrigEff','IdIsoSCStop','l2kin','l3kin','l4kin'],
+                  },
 
 
   'JESup'     :  {
@@ -3910,14 +3917,14 @@ Steps= {
                   'command'    : 'gardener.py idisofiller  --isoideleAltLumiRatio=0.0135 --cmssw=RPLME_CMSSW --idEleKind=cut_WP_Tight80X'
                },
 
-# Old trigger module
-
   'IdIsoSCStop' : {
                   'isChain'    : False ,
                   'do4MC'      : True  ,
                   'do4Data'    : False  ,
                   'command'    : 'gardener.py idisostopfiller  --readfastsim=1 --cmssw=RPLME_CMSSW --idLepKind RPLME_LepKind'
                   },
+
+# Old trigger module
 
 
   'TrigEff'  : {

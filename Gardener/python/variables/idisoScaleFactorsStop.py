@@ -31,6 +31,7 @@ class IdIsoSFStopFiller(TreeCloner):
         group.add_option('-c', '--cmssw', dest='cmssw', help='cmssw version (naming convention may change)', default='ICHEP2016', type='string')
         group.add_option('-f', '--readfastsim', dest='readfastsim', help='read FastSim SFs', default=0, type='int')
         group.add_option( '--idLepKind' , dest='idLepKind', help='kind of lepton id', default=None) 
+        group.add_option( '--BCDEFtoGHRatio', dest='BCDEFtoGHRatio', help='Ratio of BCDEF to GH data used', type='float'  ,    default=0.549763) # 19.72/35.87
         parser.add_option_group(group)
         return group
 
@@ -168,13 +169,15 @@ class IdIsoSFStopFiller(TreeCloner):
                 self.fileFastSimElectronIdIso = self._openRootFile(cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/idiso/ICHEP2016/Stop/sf_el_tightCB_MultiVT__FastSim.root')
                 self.FastSimElIdIso = self._getRootObj(self.fileFastSimElectronIdIso,   'histo2D')
             
-        self.cmssw       = opts.cmssw
-        self.readfastsim = opts.readfastsim
-        self.idLepKind   = opts.idLepKind
+        self.cmssw          = opts.cmssw
+        self.readfastsim    = opts.readfastsim
+        self.idLepKind      = opts.idLepKind
+        self.BCDEFtoGHRatio = opts.BCDEFtoGHRatio
 
-        print " cmssw         = ", self.cmssw
-        print " readfastsim   = ", self.readfastsim
-        print " idLepKind     = ", self.idLepKind
+        print " cmssw          = ", self.cmssw
+        print " readfastsim    = ", self.readfastsim
+        print " idLepKind      = ", self.idLepKind
+        print " BCDEFtoGHRatio = ", self.BCDEFtoGHRatio
 
     # X axis: Pt, Y axis: abs(Eta)        
     def _getHistoValuePtAbsEta(self, h2, pt, eta):
@@ -265,7 +268,7 @@ class IdIsoSFStopFiller(TreeCloner):
 
                 if self.idLepKind == "POG" :
                     toss_a_coin = ROOT.gRandom.Rndm()
-                    if toss_a_coin < 19.72/35.87 :
+                    if toss_a_coin <=  self.BCDEFtoGHRatio :
                         IdSF,   IdSFErr   = self._getHistoValuePtAbsEta(self.MuIdBF,   pt, eta)
                         IsoSF,  IsoSFErr  = self._getHistoValuePtAbsEta(self.MuIsoBF,  pt, eta)
 
