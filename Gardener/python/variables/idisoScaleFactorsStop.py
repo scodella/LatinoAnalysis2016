@@ -248,7 +248,7 @@ class IdIsoSFStopFiller(TreeCloner):
                     scaleFactor = IdSF*IsoSF
                     relative_error_scaleFactor = math.sqrt( (IdSFErr/IdSF)*(IdSFErr/IdSF) + (IsoSFErr/IsoSF)*(IsoSFErr/IsoSF) )
                 else :
-                    idisoSF, idisoSFErr  = self._getHistoValueEtaPt(self.ElReco,  pt, eta)
+                    idisoSF, idisoSFErr  = self._getHistoValueEtaPt(self.ElIdIso,  pt, eta)
                     scaleFactor = idisoSF
                     relative_error_scaleFactor = idisoSFErr/idisoSF
 
