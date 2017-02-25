@@ -31,6 +31,7 @@ class IdIsoSFStopFiller(TreeCloner):
         group.add_option('-c', '--cmssw', dest='cmssw', help='cmssw version (naming convention may change)', default='ICHEP2016', type='string')
         group.add_option('-f', '--readfastsim', dest='readfastsim', help='read FastSim SFs', default=0, type='int')
         group.add_option( '--idLepKind' , dest='idLepKind', help='kind of lepton id', default=None) 
+        group.add_option( '--BCDEFtoGHRatio', dest='BCDEFtoGHRatio', help='Ratio of BCDEF to GH data used', type='float'  ,    default=0.549763) # 19.72/35.87
         parser.add_option_group(group)
         return group
 
@@ -96,9 +97,9 @@ class IdIsoSFStopFiller(TreeCloner):
                 self.MuIP2D = self._getRootObj(self.fileMuonIP2D, 'SF') 
                 self.MuIP3D = self._getRootObj(self.fileMuonIP3D, 'SF')
                 
-                # See also https://twiki.cern.ch/twiki/bin/view/CMS/MuonWorkInProgressAndPagResults  --> TOBEUPDATED
-                self.fileMuonReco = self._openRootFile(cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/idiso/ICHEP2016/Stop/ratios_MuonTrk.root')
-                self.MuReco = self._getRootObj(self.fileMuonReco, 'ratio_eta') 
+                # See also https://twiki.cern.ch/twiki/bin/view/CMS/MuonWorkInProgressAndPagResults
+                self.fileMuonReco = self._openRootFile(cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/idiso/Full2016/Stop/Tracking_EfficienciesAndSF_BCDEFGH.root')
+                self.MuReco = self._getRootObj(self.fileMuonReco, 'ratio_eff_eta3_dr030e030_corr') 
             
                 # https://twiki.cern.ch/twiki/bin/view/CMS/SUSLeptonSF#FullSim_FastSim_TTBar_MC_compari  --> TOBEUPDATED
                 self.fileFastSimMuonId = self._openRootFile(cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/idiso/ICHEP2016/Stop/sf_mu_medium.root') 
@@ -141,9 +142,9 @@ class IdIsoSFStopFiller(TreeCloner):
                 self.MuIP2D  = self._getRootObj(self.fileMuonIP2D,  'SF') 
                 self.MuIP3D  = self._getRootObj(self.fileMuonIP3D,  'SF')
 
-                # See also https://twiki.cern.ch/twiki/bin/view/CMS/MuonWorkInProgressAndPagResults  --> TOBEUPDATED
-                self.fileMuonReco = self._openRootFile(cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/idiso/ICHEP2016/Stop/ratios_MuonTrk.root')
-                self.MuReco = self._getRootObj(self.fileMuonReco, 'ratio_eta') 
+                # See also https://twiki.cern.ch/twiki/bin/view/CMS/MuonWorkInProgressAndPagResults
+                self.fileMuonReco = self._openRootFile(cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/idiso/Full2016/Stop/Tracking_EfficienciesAndSF_BCDEFGH.root')
+                self.MuReco = self._getRootObj(self.fileMuonReco, 'ratio_eff_eta3_dr030e030_corr') 
             
                 # https://twiki.cern.ch/twiki/bin/view/CMS/SUSLeptonSF#FullSim_FastSim_TTBar_MC_compari  --> TOBEUPDATED
                 self.fileFastSimMuonId = self._openRootFile(cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/idiso/ICHEP2016/Stop/sf_mu_medium.root') 
@@ -168,13 +169,15 @@ class IdIsoSFStopFiller(TreeCloner):
                 self.fileFastSimElectronIdIso = self._openRootFile(cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/idiso/ICHEP2016/Stop/sf_el_tightCB_MultiVT__FastSim.root')
                 self.FastSimElIdIso = self._getRootObj(self.fileFastSimElectronIdIso,   'histo2D')
             
-        self.cmssw       = opts.cmssw
-        self.readfastsim = opts.readfastsim
-        self.idLepKind   = opts.idLepKind
+        self.cmssw          = opts.cmssw
+        self.readfastsim    = opts.readfastsim
+        self.idLepKind      = opts.idLepKind
+        self.BCDEFtoGHRatio = opts.BCDEFtoGHRatio
 
-        print " cmssw         = ", self.cmssw
-        print " readfastsim   = ", self.readfastsim
-        print " idLepKind     = ", self.idLepKind
+        print " cmssw          = ", self.cmssw
+        print " readfastsim    = ", self.readfastsim
+        print " idLepKind      = ", self.idLepKind
+        print " BCDEFtoGHRatio = ", self.BCDEFtoGHRatio
 
     # X axis: Pt, Y axis: abs(Eta)        
     def _getHistoValuePtAbsEta(self, h2, pt, eta):
@@ -198,7 +201,7 @@ class IdIsoSFStopFiller(TreeCloner):
             xx = yy = ROOT.Double(0)
             h1.GetPoint(point, xx, yy)
             ex = h1.GetErrorX(point)
-            if (eta > xx-ex and eta < xx+ex):
+            if (eta >= xx-ex and eta < xx+ex):
                 value = yy
                 error = h1.GetErrorY(point)
                 return value, error
@@ -245,7 +248,7 @@ class IdIsoSFStopFiller(TreeCloner):
                     scaleFactor = IdSF*IsoSF
                     relative_error_scaleFactor = math.sqrt( (IdSFErr/IdSF)*(IdSFErr/IdSF) + (IsoSFErr/IsoSF)*(IsoSFErr/IsoSF) )
                 else :
-                    idisoSF, idisoSFErr  = self._getHistoValueEtaPt(self.ElReco,  pt, eta)
+                    idisoSF, idisoSFErr  = self._getHistoValueEtaPt(self.ElIdIso,  pt, eta)
                     scaleFactor = idisoSF
                     relative_error_scaleFactor = idisoSFErr/idisoSF
 
@@ -265,7 +268,7 @@ class IdIsoSFStopFiller(TreeCloner):
 
                 if self.idLepKind == "POG" :
                     toss_a_coin = ROOT.gRandom.Rndm()
-                    if toss_a_coin < 19.72/35.87 :
+                    if toss_a_coin <=  self.BCDEFtoGHRatio :
                         IdSF,   IdSFErr   = self._getHistoValuePtAbsEta(self.MuIdBF,   pt, eta)
                         IsoSF,  IsoSFErr  = self._getHistoValuePtAbsEta(self.MuIsoBF,  pt, eta)
 
@@ -274,7 +277,7 @@ class IdIsoSFStopFiller(TreeCloner):
                 # This includes systematic errors. Put on statistics because of how it's written AnalysisCMS  
                 relative_error_scaleFactor = 0.03
                 if self.idLepKind == "POG" : # Preliminary
-                    relative_error_scaleFactor = math.sqrt( (IdSFErr/IdSF)*(IdSFErr/IdSF) + 0.01*0.01
+                    relative_error_scaleFactor = math.sqrt( (IdSFErr/IdSF)*(IdSFErr/IdSF) + 0.01*0.01 +
                                                             (IsoSFErr/IsoSF)*(IsoSFErr/IsoSF) + 0.005*0.005 )
                 scaleFactor_do = scaleFactor*(1. -  relative_error_scaleFactor)
                 scaleFactor_up = scaleFactor*(1. +  relative_error_scaleFactor)
@@ -323,6 +326,10 @@ class IdIsoSFStopFiller(TreeCloner):
                 RecoSF, RecoSFErr  = self._getTGraphValueEta(self.MuReco,  eta)
 
                 scaleFactor = RecoSF
+
+                if self.BCDEFtoGHRatio != 0.549763 :
+                    CorrFactor = 0.995 - (1. - self.BCDEFtoGHRatio)*(0.995 - 0.999)/(1. - 0.549763)
+                    scaleFactor = scaleFactor*CorrFactor/0.999
 
                 # This includes systematic errors. Put on statistics because of how it's written AnalysisCMS
                 relative_error_scaleFactor = RecoSFErr/RecoSF
