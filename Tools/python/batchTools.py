@@ -84,9 +84,8 @@ class batchJobs :
            jFile.write("cd /tmp/$LSB_JOBID \n")
            jFile.write("pwd \n")
 # mkdir: cannot create directory `/tmp/piedra/latinos': No such file or directory
-###      elif 'ifca' in os.uname()[1]:
-###        jFile.write("mkdir -p /tmp/"+os.environ["USER"]+"/latinos \n") 
-###        jFile.write("cd /tmp/"+os.environ["USER"]+"/latinos \n") 
+         elif 'ifca' in os.uname()[1]:
+           jFile.write("cd /gpfs/csic_projects/cms/sluca/ \n") 
          else:
            jFile.write('cd - \n')
        else              : jFile.write('cd '+wDir+' \n')
