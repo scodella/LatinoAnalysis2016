@@ -1647,19 +1647,11 @@ Steps= {
                                  ] ,
                 }, 
 
-<<<<<<< HEAD
   'bSFL2pTEffBStop'   :   {
                   'isChain'    : True ,
                   'do4MC'      : True ,
                   'do4Data'    : True ,
                   'subTargets' : ['do_lpTCorrMC','do_lpTCorrData','bPogSF','TrigEffB','IdIsoSCStop','l2kin','l3kin','l4kin'],
-=======
-  'bSFL2pTEffStop'   :   {
-                  'isChain'    : True ,
-                  'do4MC'      : True ,
-                  'do4Data'    : True ,
-                  'subTargets' : ['do_lpTCorrMC','do_lpTCorrData','bPogSF','TrigEff','IdIsoSCStop','l2kin','l3kin','l4kin'],
->>>>>>> 31f7a0990b24c15d66e49a64782d856ebbca40a6
                   },
 
 
