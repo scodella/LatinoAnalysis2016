@@ -101,11 +101,11 @@ class IdIsoSFStopFiller(TreeCloner):
                 self.fileMuonReco = self._openRootFile(cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/idiso/Full2016/Stop/Tracking_EfficienciesAndSF_BCDEFGH.root')
                 self.MuReco = self._getRootObj(self.fileMuonReco, 'ratio_eff_eta3_dr030e030_corr') 
             
-                # https://twiki.cern.ch/twiki/bin/view/CMS/SUSLeptonSF#FullSim_FastSim_TTBar_MC_compari  --> TOBEUPDATED
-                self.fileFastSimMuonId = self._openRootFile(cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/idiso/ICHEP2016/Stop/sf_mu_medium.root') 
-                self.fileFastSimMuonIso = self._openRootFile(cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/idiso/ICHEP2016/Stop/sf_mu_mediumID_multiVT.root') 
-                self.fileFastSimMuonIP2D = self._openRootFile(cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/idiso/ICHEP2016/Stop/sf_mu_tightIP2D.root')
-                self.fileFastSimMuonIP3D = self._openRootFile(cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/idiso/ICHEP2016/Stop/sf_mu_tightIP3D.root')
+                # https://twiki.cern.ch/twiki/bin/view/CMS/SUSLeptonSF#FullSim_FastSim_TTBar_MC_compari
+                self.fileFastSimMuonId = self._openRootFile(cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/idiso/Full2016/Stop/sf_mu_mediumID.root') 
+                self.fileFastSimMuonIso = self._openRootFile(cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/idiso/Full2016/Stop/sf_mu_mediumID_iso012.root') 
+                self.fileFastSimMuonIP2D = self._openRootFile(cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/idiso/Full2016/Stop/sf_mu_mediumID_tightIP2D.root')
+                self.fileFastSimMuonIP3D = self._openRootFile(cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/idiso/Full2016/Stop/sf_mu_mediumID_tightIP3D.root')
                 
                 self.FastSimMuId   = self._getRootObj(self.fileFastSimMuonId,   'histo2D')
                 self.FastSimMuIso  = self._getRootObj(self.fileFastSimMuonIso,  'histo2D') 
@@ -146,11 +146,11 @@ class IdIsoSFStopFiller(TreeCloner):
                 self.fileMuonReco = self._openRootFile(cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/idiso/Full2016/Stop/Tracking_EfficienciesAndSF_BCDEFGH.root')
                 self.MuReco = self._getRootObj(self.fileMuonReco, 'ratio_eff_eta3_dr030e030_corr') 
             
-                # https://twiki.cern.ch/twiki/bin/view/CMS/SUSLeptonSF#FullSim_FastSim_TTBar_MC_compari  --> TOBEUPDATED
-                self.fileFastSimMuonId = self._openRootFile(cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/idiso/ICHEP2016/Stop/sf_mu_medium.root') 
-                self.fileFastSimMuonIso = self._openRootFile(cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/idiso/ICHEP2016/Stop/sf_mu_mediumID_multiVT.root') 
-                self.fileFastSimMuonIP2D = self._openRootFile(cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/idiso/ICHEP2016/Stop/sf_mu_tightIP2D.root')
-                self.fileFastSimMuonIP3D = self._openRootFile(cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/idiso/ICHEP2016/Stop/sf_mu_tightIP3D.root')
+                # https://twiki.cern.ch/twiki/bin/view/CMS/SUSLeptonSF#FullSim_FastSim_TTBar_MC_compari
+                self.fileFastSimMuonId = self._openRootFile(cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/idiso/Full2016/Stop/sf_mu_mediumID.root') 
+                self.fileFastSimMuonIso = self._openRootFile(cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/idiso/Full2016/Stop/sf_mu_mediumID_iso012.root') 
+                self.fileFastSimMuonIP2D = self._openRootFile(cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/idiso/Full2016/Stop/sf_mu_mediumID_tightIP2D.root')
+                self.fileFastSimMuonIP3D = self._openRootFile(cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/idiso/Full2016/Stop/sf_mu_mediumID_tightIP3D.root')
             
                 self.FastSimMuId   = self._getRootObj(self.fileFastSimMuonId,   'histo2D')
                 self.FastSimMuIso  = self._getRootObj(self.fileFastSimMuonIso,  'histo2D') 
