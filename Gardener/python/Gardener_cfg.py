@@ -1097,6 +1097,17 @@ Productions= {
                         # 37.X fb-1
                         'puData'  : '/gpfs/csic_users/sluca/Stop/CMSSW_8_0_17/src/LatinoAnalysis/Gardener/scripts/PileupHistogram_8020_272007-275376_69.2mb_26Oct.root',
                         'LepKind' : 'POG',
+                       }, 
+
+  'Feb2017_spring16_stop_ichep'   : {
+                        'isData'  : False ,
+                        'samples' : 'LatinoTrees/AnalysisStep/test/crab/samples/samples_spring16_miniaod_v2_Feb2017_WW.py' ,
+                        'dir'     : '/gpfs/csic_projects/cms/sluca/SUSY/Stop/Moriond17/LatinoTrees/MC/',
+                        'dirExt'  : 'Spring16' ,
+                        'cmssw'   : 'ICHEP2016' ,
+                        # 37.X fb-1
+                        'puData'  : '/gpfs/csic_users/sluca/Stop/CMSSW_8_0_17/src/LatinoAnalysis/Gardener/scripts/PileupHistogram_8020_272007-275376_69.2mb_26Oct.root',
+                        'LepKind' : 'None',
                        },
 
 #### Stop Preliminary ReReco

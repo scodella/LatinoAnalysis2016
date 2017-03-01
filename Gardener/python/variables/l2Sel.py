@@ -23,6 +23,7 @@ import re
 import warnings
 import os.path
 from collections import OrderedDict
+from ROOT import TVector3
 from array import array;
 
 class L2SelFiller(TreeCloner):
@@ -942,7 +943,8 @@ class L2SelFiller(TreeCloner):
             elif abs(self.itree.std_vector_lepton_eta[ilepton]) <= 2.500 :
                 EffArea = 0.0577
                    
-        NeutralMiniIso = self.itree.std_vector_lepton_neutralHadronMiniIso[ilepton] + self.itree.std_vector_lepton_photonMiniIso[ilepton] - self.itree.jetRhoCentralNeutral*EffArea*(IsoRadius/0.3)*(IsoRadius/0.3)
+        #NeutralMiniIso = self.itree.std_vector_lepton_neutralHadronMiniIso[ilepton] + self.itree.std_vector_lepton_photonMiniIso[ilepton] - self.itree.jetRhoCentralNeutral*EffArea*(IsoRadius/0.3)*(IsoRadius/0.3)
+        NeutralMiniIso = self.itree.std_vector_lepton_neutralHadronMiniIso[ilepton] + self.itree.std_vector_lepton_photonMiniIso[ilepton] - self.itree.jetRho*EffArea*(IsoRadius/0.3)*(IsoRadius/0.3)
         if NeutralMiniIso < 0. :
             NeutralMiniIso = 0.
         MiniIso = (self.itree.std_vector_lepton_chargedHadronMiniIso[ilepton] + NeutralMiniIso)/self.itree.std_vector_lepton_pt[ilepton]
