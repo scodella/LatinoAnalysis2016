@@ -1165,8 +1165,8 @@ Productions= {
   'Feb2017_Run2016B_ReMiniAOD' : {
         'isData'  : True ,
         'samples' : 'LatinoTrees/AnalysisStep/test/crab/samples/samples_data_2016_Re-miniAOD.py',
-        'dir'     : '/gpfs/gaes/cms/store/group/phys_higgs/cmshww/amassiro/RunII/2016/Feb2017/data/25ns/',
-        'dirExt'  : 'LatinoTrees' ,
+        'dir'     : '/gpfs/gaes/cms/store/group/phys_higgs/cmshww/amassiro/RunII/2016/Feb2017/data/25ns/LatinoTrees/',
+        'dirExt'  : 'Run2016B' ,
         'cmssw'   : 'Full2016' ,
         'onlySample' : [
             'DoubleEG_Run2016B-03Feb2017_ver2-v2',
@@ -1192,6 +1192,23 @@ Productions= {
             'SingleElectron_Run2016C-03Feb2017-v1',
             'SingleMuon_Run2016C-03Feb2017-v1',
             'MET_Run2016C-03Feb2017-v1',   
+            ],
+            'LepKind' : 'Ghent',
+        },
+
+  'Feb2017_Run2016D_ReMiniAOD' : {
+        'isData'  : True ,
+        'samples' : 'LatinoTrees/AnalysisStep/test/crab/samples/samples_data_2016_Re-miniAOD.py',
+        'dir'     : '/gpfs/gaes/cms/store/group/phys_higgs/cmshww/amassiro/RunII/2016/Feb2017/data/25ns/LatinoTrees/',
+        'dirExt'  : 'Run2016D' ,
+        'cmssw'   : 'Full2016' ,
+        'onlySample' : [
+            'DoubleEG_Run2016D-03Feb2017-v1',
+            'DoubleMuon_Run2016D-03Feb2017-v1',
+            'MuonEG_Run2016D-03Feb2017-v1',
+            'SingleElectron_Run2016D-03Feb2017-v1',
+            'SingleMuon_Run2016D-03Feb2017-v1',
+            'MET_Run2016D-03Feb2017-v1',   
             ],
             'LepKind' : 'Ghent',
         },
