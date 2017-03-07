@@ -1146,6 +1146,20 @@ Productions= {
             'LepKind' : 'POG',
         },
 
+
+#### Stop Preliminary Summer16 MC:   
+
+  'Feb2017_spring16_stop_ghent'   : {
+                        'isData'  : False ,
+                        'samples' : 'LatinoTrees/AnalysisStep/test/crab/samples/samples_summer16.py' ,
+                        'dir'     : '/gpfs/gaes/cms/store/group/phys_higgs/cmshww/amassiro/RunII/2016/Feb2017/MC/',
+                        'dirExt'  : 'LatinoTrees' ,
+                        'cmssw'   : 'Full2016' ,
+                        # 37.X fb-1
+                        'puData'  : '/gpfs/csic_users/sluca/Stop/CMSSW_8_0_17/src/LatinoAnalysis/Gardener/scripts/PileupHistogram_8020_272007-275376_69.2mb_26Oct.root',
+                        'LepKind' : 'Ghent',
+                       },  
+
 #### Stop ReMiniAOD
 
   'Feb2017_Run2016B_ReMiniAOD' : {
@@ -1161,6 +1175,23 @@ Productions= {
             'SingleElectron_Run2016B-03Feb2017_ver2-v2',
             'SingleMuon_Run2016B-03Feb2017_ver2-v2',
             'MET_Run2016B-03Feb2017_ver2-v2',   
+            ],
+            'LepKind' : 'Ghent',
+        },
+
+  'Feb2017_Run2016C_ReMiniAOD' : {
+        'isData'  : True ,
+        'samples' : 'LatinoTrees/AnalysisStep/test/crab/samples/samples_data_2016_Re-miniAOD.py',
+        'dir'     : '/gpfs/gaes/cms/store/group/phys_higgs/cmshww/amassiro/RunII/2016/Feb2017/data/25ns/LatinoTrees/',
+        'dirExt'  : 'Run2016C' ,
+        'cmssw'   : 'Full2016' ,
+        'onlySample' : [
+            'DoubleEG_Run2016C-03Feb2017-v1',
+            'DoubleMuon_Run2016C-03Feb2017-v1',
+            'MuonEG_Run2016C-03Feb2017-v1',
+            'SingleElectron_Run2016C-03Feb2017-v1',
+            'SingleMuon_Run2016C-03Feb2017-v1',
+            'MET_Run2016C-03Feb2017-v1',   
             ],
             'LepKind' : 'Ghent',
         },

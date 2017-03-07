@@ -81,6 +81,7 @@ class L2SelFiller(TreeCloner):
           #vector.push_back ( 10000. )
         # set the default value for the remaining
         if (self.kind == 5 and (("vector_lepton" in vectorname) or ("vector_electron" in vectorname) or ("vector_muon" in vectorname)) ) :
+            print "am I doing this??" 
             for i in range( len(temp_vector) ) :
                 isGood = False
                 for g in range( len(goodleptonslist) ) :
