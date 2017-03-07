@@ -943,8 +943,7 @@ class L2SelFiller(TreeCloner):
             elif abs(self.itree.std_vector_lepton_eta[ilepton]) <= 2.500 :
                 EffArea = 0.0577
                    
-        #NeutralMiniIso = self.itree.std_vector_lepton_neutralHadronMiniIso[ilepton] + self.itree.std_vector_lepton_photonMiniIso[ilepton] - self.itree.jetRhoCentralNeutral*EffArea*(IsoRadius/0.3)*(IsoRadius/0.3)
-        NeutralMiniIso = self.itree.std_vector_lepton_neutralHadronMiniIso[ilepton] + self.itree.std_vector_lepton_photonMiniIso[ilepton] - self.itree.jetRho*EffArea*(IsoRadius/0.3)*(IsoRadius/0.3)
+        NeutralMiniIso = self.itree.std_vector_lepton_neutralHadronMiniIso[ilepton] + self.itree.std_vector_lepton_photonMiniIso[ilepton] - self.itree.jetRhoCentralNeutral*EffArea*(IsoRadius/0.3)*(IsoRadius/0.3)
         if NeutralMiniIso < 0. :
             NeutralMiniIso = 0.
         MiniIso = (self.itree.std_vector_lepton_chargedHadronMiniIso[ilepton] + NeutralMiniIso)/self.itree.std_vector_lepton_pt[ilepton]
@@ -1003,71 +1002,79 @@ class L2SelFiller(TreeCloner):
 
     def passRelIso(self, ilepton, IsolationCut) :
 
-           neutralIsoCorrection = 0
-           if abs(self.itree.std_vector_lepton_flavour[ilepton]) == 11 :
-               effectiveArea = self.itree.std_vector_electron_effectiveArea[ilepton]
-               if self.cmssw == 'Full2016' and self.idEleKind == "Ghent" :
-                   # https://github.com/ikrav/cmssw/blob/egm_id_80X_v1/RecoEgamma/ElectronIdentification/data/Spring15/effAreaElectrons_cone03_pfNeuHadronsAndPhotons_25ns.txt
-                   if abs(self.itree.std_vector_lepton_eta[ilepton]) <= 1.0000 :
-                       effectiveArea = 0.1752
-                   elif abs(self.itree.std_vector_lepton_eta[ilepton]) <= 1.4790 :
-                       effectiveArea = 0.1862
-                   elif abs(self.itree.std_vector_lepton_eta[ilepton]) <= 2.0000 :
-                       effectiveArea = 0.1411
-                   elif abs(self.itree.std_vector_lepton_eta[ilepton]) <= 2.2000 :
-                       effectiveArea = 0.1534
-                   elif abs(self.itree.std_vector_lepton_eta[ilepton]) <= 2.3000 :
-                       effectiveArea = 0.1903
-                   elif abs(self.itree.std_vector_lepton_eta[ilepton]) <= 2.4000 :
-                       effectiveArea = 0.2243
-                   elif abs(self.itree.std_vector_lepton_eta[ilepton]) <= 5.0000 :
-                       effectiveArea = 0.2687
-               # https://github.com/cms-sw/cmssw/blob/479125afaa09ca2898cdd39de325f7de63457dfb/RecoEgamma/ElectronIdentification/python/Identification/cutBasedElectronID_tools.py#L317
-               neutralIsoCorrection = self.itree.jetRho*effectiveArea
-           elif abs(self.itree.std_vector_lepton_flavour[ilepton]) == 13 :
-               neutralIsoCorrection = 0.5 * self.itree.std_vector_lepton_sumPUPt[ilepton]
-           else :
-               return False
+        sumPUPt = self.itree.std_vector_lepton_sumPUPt[ilepton]
+        chHadIso = self.itree.std_vector_lepton_chargedHadronIso[ilepton]
+        neuHadIso = self.itree.std_vector_lepton_neutralHadronIso[ilepton]
+        photIso = self.itree.std_vector_lepton_photonIso[ilepton]
 
-           neutralIso = (self.itree.std_vector_lepton_photonIso[ilepton] + 
-                         self.itree.std_vector_lepton_neutralHadronIso[ilepton] -
-                         neutralIsoCorrection)
+        if self.cmssw == 'Full2016' and self.idEleKind == "Ghent" :
+            if abs(self.itree.std_vector_lepton_flavour[ilepton]) == 13 :
+                sumPUPt = self.itree.std_vector_lepton_sumPUPt03[ilepton]
+                chHadIso = self.itree.std_vector_lepton_chargedHadronIso03[ilepton]
+                neuHadIso = self.itree.std_vector_lepton_neutralHadronIso03[ilepton]
+                photIso = self.itree.std_vector_lepton_photonIso03[ilepton]
 
-           if neutralIso < 0. :
-               neutralIso = 0.
+        neutralIsoCorrection = 0
+        if abs(self.itree.std_vector_lepton_flavour[ilepton]) == 11 :
+            effectiveArea = self.itree.std_vector_electron_effectiveArea[ilepton]
+            if self.cmssw == 'Full2016' and self.idEleKind == "Ghent" :
+                # https://github.com/ikrav/cmssw/blob/egm_id_80X_v1/RecoEgamma/ElectronIdentification/data/Spring15/effAreaElectrons_cone03_pfNeuHadronsAndPhotons_25ns.txt
+                if abs(self.itree.std_vector_lepton_eta[ilepton]) <= 1.0000 :
+                    effectiveArea = 0.1752
+                elif abs(self.itree.std_vector_lepton_eta[ilepton]) <= 1.4790 :
+                    effectiveArea = 0.1862
+                elif abs(self.itree.std_vector_lepton_eta[ilepton]) <= 2.0000 :
+                    effectiveArea = 0.1411
+                elif abs(self.itree.std_vector_lepton_eta[ilepton]) <= 2.2000 :
+                    effectiveArea = 0.1534
+                elif abs(self.itree.std_vector_lepton_eta[ilepton]) <= 2.3000 :
+                    effectiveArea = 0.1903
+                elif abs(self.itree.std_vector_lepton_eta[ilepton]) <= 2.4000 :
+                    effectiveArea = 0.2243
+                elif abs(self.itree.std_vector_lepton_eta[ilepton]) <= 5.0000 :
+                    effectiveArea = 0.2687
+            # https://github.com/cms-sw/cmssw/blob/479125afaa09ca2898cdd39de325f7de63457dfb/RecoEgamma/ElectronIdentification/python/Identification/cutBasedElectronID_tools.py#L317
+            neutralIsoCorrection = self.itree.jetRho*effectiveArea
+        elif abs(self.itree.std_vector_lepton_flavour[ilepton]) == 13 :
+            neutralIsoCorrection = 0.5 * sumPUPt
+        else :
+            return False
+
+        neutralIso = (photIso + neuHadIso - neutralIsoCorrection)
+
+        if neutralIso < 0. :
+            neutralIso = 0.
            
-           RelIso = (self.itree.std_vector_lepton_chargedHadronIso[ilepton] + neutralIso) / self.itree.std_vector_lepton_pt[ilepton]
+        RelIso = (chHadIso + neutralIso) / self.itree.std_vector_lepton_pt[ilepton]
 
-           RelIsoCut = 0.12
-           if abs(self.itree.std_vector_lepton_flavour[ilepton]) == 13 :
-               RelIsoCut = 0.15 # Use POG till we don't have cone 03 for muons
-           if self.idEleKind == "POG":
-               if abs(self.itree.std_vector_lepton_flavour[ilepton]) == 11 :
-                   if abs(self.itree.std_vector_electron_scEta[ilepton]) <= 1.479 :
-                       RelIsoCut = 0.0588
-                   else :
-                       RelIsoCut = 0.0571
-               elif abs(self.itree.std_vector_lepton_flavour[ilepton]) == 13 :
-                   RelIsoCut = 0.15
+        RelIsoCut = 0.12
+        if self.idEleKind == "POG":
+            if abs(self.itree.std_vector_lepton_flavour[ilepton]) == 11 :
+                if abs(self.itree.std_vector_electron_scEta[ilepton]) <= 1.479 :
+                    RelIsoCut = 0.0588
+                else :
+                    RelIsoCut = 0.0571
+            elif abs(self.itree.std_vector_lepton_flavour[ilepton]) == 13 :
+                RelIsoCut = 0.15
 
-           if IsolationCut == 0 :
-               RelIsoCut = 0.4
-               if self.idEleKind == "POG" :
-                   if abs(self.itree.std_vector_lepton_flavour[ilepton]) == 11 :
-                       if abs(self.itree.std_vector_electron_scEta[ilepton]) <= 1.479 :
-                           RelIsoCut = 0.175
-                       else :
-                           RelIsoCut = 0.159
-                   elif abs(self.itree.std_vector_lepton_flavour[ilepton]) == 13 :
-                       RelIsoCut = 0.25
+        if IsolationCut == 0 :
+            RelIsoCut = 0.4
+            if self.idEleKind == "POG" :
+                if abs(self.itree.std_vector_lepton_flavour[ilepton]) == 11 :
+                    if abs(self.itree.std_vector_electron_scEta[ilepton]) <= 1.479 :
+                        RelIsoCut = 0.175
+                    else :
+                        RelIsoCut = 0.159
+                elif abs(self.itree.std_vector_lepton_flavour[ilepton]) == 13 :
+                    RelIsoCut = 0.25
 
-           if RelIso < RelIsoCut :
-               return True
+        if RelIso < RelIsoCut :
+            return True
 
-           return False
+        return False
 
 
-    def isStopLepton(self, ilepton, IsolationCut) :
+    def isStopLepton(self, ilepton) :
                       
         isThisAStopLepton = 0
 
@@ -1075,9 +1082,9 @@ class L2SelFiller(TreeCloner):
             
             isIsolatedLepton = True
             if self.cmssw == 'ICHEP2016' :
-               isIsolatedLepton = self.passMultiIso(ilepton, IsolationCut)
+               isIsolatedLepton = self.passMultiIso(ilepton, 4)
             elif self.cmssw == 'Full2016' :
-                isIsolatedLepton = self.passRelIso(ilepton, IsolationCut)
+                isIsolatedLepton = self.passRelIso(ilepton, 4)
             if isIsolatedLepton == False :
                 return 0    
 
@@ -1244,7 +1251,7 @@ class L2SelFiller(TreeCloner):
 
 
 
-    def isStopVetoLepton(self, ilepton, IsolationCut) :
+    def isStopVetoLepton(self, ilepton) :
                       
         isThisAStopVetoLepton = 0
 
@@ -1252,9 +1259,9 @@ class L2SelFiller(TreeCloner):
             
             isIsolatedLepton = True
             if self.cmssw == 'ICHEP2016' :
-               isIsolatedLepton = self.passMultiIso(ilepton, IsolationCut)
+               isIsolatedLepton = self.passMultiIso(ilepton, 0)
             elif self.cmssw == 'Full2016' :
-                isIsolatedLepton = self.passRelIso(ilepton, IsolationCut)
+                isIsolatedLepton = self.passRelIso(ilepton, 0)
             if isIsolatedLepton == False :
                 return 0    
 
@@ -1646,7 +1653,7 @@ class L2SelFiller(TreeCloner):
 
               if self.kind == 5 :
                
-                StopTag = self.isStopLepton(iLep, 4)
+                StopTag = self.isStopLepton(iLep)
                 
                 if StopTag == 1 :
                   isGoodLepton = True
@@ -1693,7 +1700,7 @@ class L2SelFiller(TreeCloner):
                           bvector.push_back (LooseTag)
                   for remainingLep in range( maxNumLeptons - len(goodLeps) ) :
                       if self.kind == 5 :
-                          StopTagVeto = self.isStopVetoLepton(len(goodLeps) + remainingLep, 0)
+                          StopTagVeto = self.isStopVetoLepton(len(goodLeps) + remainingLep)
                           if StopTagVeto == 1:
                               bvector.push_back (1)
                           else:
