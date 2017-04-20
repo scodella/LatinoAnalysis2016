@@ -22,6 +22,7 @@ from LatinoAnalysis.Gardener.variables.idisoScaleFactorsStop      import IdIsoSF
 # selections
 from LatinoAnalysis.Gardener.variables.l2Sel                      import L2SelFiller
 from LatinoAnalysis.Gardener.variables.l1Sel                      import L1SelFiller
+from LatinoAnalysis.Gardener.variables.LeptonSel                  import LeptonSel
 
 # kinematic variables
 from LatinoAnalysis.Gardener.variables.l2Kin                      import L2KinFiller
@@ -50,7 +51,7 @@ from LatinoAnalysis.Gardener.variables.ElectronsVar               import Electro
 from LatinoAnalysis.Gardener.variables.DMVar                      import DMVarFiller
 from LatinoAnalysis.Gardener.variables.XWWVar                     import XWWVarFiller
 from LatinoAnalysis.Gardener.variables.dymvaVar                   import DymvaVarFiller
-from LatinoAnalysis.Gardener.variables.dymvaGGHVar                import DymvaGGHVarFiller
+from LatinoAnalysis.Gardener.variables.dymvaHiggs                 import DymvaHiggsFiller
 
 from LatinoAnalysis.Gardener.variables.chargeFlipWeight           import chargeFlipWeight
 # mucca
@@ -151,7 +152,7 @@ if __name__ == '__main__':
     modules['dmvarfiller']      = DMVarFiller()
     modules['xwwvarfiller']     = XWWVarFiller()
     modules['dymvaVarFiller']   = DymvaVarFiller()
-    modules['dymvaGGHVarFiller']   = DymvaGGHVarFiller()
+    modules['dymvaHiggsFiller']   = DymvaHiggsFiller()
 
 # Charge Flip
     modules['chFlipProba']      = chargeFlipWeight()
@@ -186,7 +187,7 @@ if __name__ == '__main__':
 # apply selections and update variables
     modules['l2selfiller']     = L2SelFiller()
     modules['l1selfiller']     = L1SelFiller()
-
+    modules['lepSel']          = LeptonSel()
 
 # update kinematic variables
     modules['l2kinfiller']     = L2KinFiller()

@@ -36,8 +36,11 @@ public:
  //! functions
  float recoil();
  float jetpt1_cut();
+ float jetpt2_cut();
  float dphilljet_cut();
+ float dphilljetjet_cut();
  float dphijet1met_cut();
+ float dphijet2met_cut();
  float PfMetDivSumMet();
  float upara();
  float uperp();
@@ -89,6 +92,7 @@ public:
  float dphijet1met();  
  float dphijet2met();  
  float dphijjmet();    
+ float dphijjmet_cut();    
  float dphilep1jet1(); 
  float dphilep1jet2(); 
  float dphilep2jet1(); 
@@ -101,6 +105,7 @@ public:
  //---- to reject Wg*
  float mllThird();
  float mllWgSt();
+ float drllWgSt();
  //int   WgSt_channel(){return _WgSt_channel;}
  float mllOneThree();
  float mllTwoThree();
@@ -121,7 +126,7 @@ private:
  int  _jetOk;
  int  _lepOk;
  bool _isTkMET;
- int _WgSt_channel; // (1; el, el, el) (2; el, el, mu) (3; el, mu, mu) (4; mu, mu, mu)
+ //int _WgSt_channel; // (1; el, el, el) (2; el, el, mu) (3; el, mu, mu) (4; mu, mu, mu)
 
  
  std::vector<float> _jetspt;
@@ -464,6 +469,15 @@ float WW::jetpt1_cut(){
  }
 }
 
+float WW::jetpt2_cut(){
+ if (_isOk && _jetOk >= 2 && J2.Pt()>15.0) {
+  return J2.Pt();
+ }
+ else {
+  return -1.0;
+ }
+}
+
 float WW::dphilljet_cut(){ 
  if (_isOk && _jetOk >= 1 && J1.Pt()>15.0 ) {
   return fabs( (L1+L2).DeltaPhi(J1) );
@@ -482,6 +496,15 @@ float WW::dphijet1met_cut(){
  }
 }
 
+float WW::dphijet2met_cut(){
+ if (_isOk && _jetOk >= 1 && J2.Pt()>15.0 ) {
+  return fabs(J2.DeltaPhi(MET));
+ }
+ else {
+  return -1.0;
+ }
+}
+
 float WW::dphilljetjet(){ 
  if (_isOk && _jetOk >= 2) {
    return  fabs( (L1+L2).DeltaPhi(J1+J2) );
@@ -491,6 +514,14 @@ float WW::dphilljetjet(){
  }
 }
 
+float WW::dphilljetjet_cut(){
+ if (_isOk && _jetOk >= 2 && J1.Pt()>15.0 && J2.Pt()>15.0) {
+   return  fabs( (L1+L2).DeltaPhi(J1+J2) );
+ }
+ else {
+  return -1.0;
+ }
+}
 
 float WW::dphilmet(){ 
  if (_isOk) {
@@ -941,6 +972,14 @@ float WW::dphijjmet(){
   } 
 }
 
+float WW::dphijjmet_cut(){
+  if (_isOk && _jetOk >= 2 && J1.Pt()>15.0 && J2.Pt()>15.0) {
+    return fabs((J1+J2).DeltaPhi(MET));
+  }
+  else {
+    return -1.0;
+  }
+}
 
 float WW::dphilep1jet1(){
  if (_isOk && _jetOk >= 1) {
@@ -1199,7 +1238,7 @@ float WW::mllWgSt(){ // smallest mll out of three combination
  float mll13     = -9999.0;
  float mll23     = -9999.0;
 
- _WgSt_channel = -9999;
+ //_WgSt_channel = -9999;
  
  if (_isOk) {
   
@@ -1242,6 +1281,76 @@ float WW::mllWgSt(){ // smallest mll out of three combination
    if(mll12 >= 0)if(mll13 >= 0)if(mll23 >= 0)if(mll23 < mll12)if(mll23 < mll13){mll_small = mll23;}
 
    return mll_small;
+  }   
+  else { //---- if third lepton is not good
+   return -9999.0;
+  }
+ }
+ else { //---- if I don't even have 2 leptons
+  return -9999.0;
+ }
+  
+}
+float WW::drllWgSt(){ // smallest mll out of three combination
+
+ float mll_small = -9999.0;
+ float drll_small = -9999.0;
+
+ float mll12     = -9999.0;
+ float drll12     = -9999.0;
+
+ float mll13     = -9999.0;
+ float drll13     = -9999.0;
+
+ float mll23     = -9999.0;
+ float drll23     = -9999.0;
+
+ //_WgSt_channel = -9999;
+ 
+ if (_isOk) {
+  
+  //---- check L3
+  //----      pt3>8 GeV
+  if (_leptonspt.size()>3  ) {
+   float flav1 = _leptonsflavour.at(0);
+   float flav2 = _leptonsflavour.at(1);
+   float flav3 = _leptonsflavour.at(2);
+   
+   
+   //---- same flavour and different charge
+   if (fabs(flav1) == fabs(flav2) && flav1*flav2<0) {
+    mll12 = (L1+L2).M();
+    drll12 = L1.DeltaR(L2);
+   }
+   if (fabs(flav1) == fabs(flav3) && flav1*flav3<0) {
+    mll13 = (L1+L3).M();
+    drll13 = L1.DeltaR(L3);
+   }
+   if (fabs(flav2) == fabs(flav3) && flav2*flav3<0) {
+    mll23 = (L2+L3).M();
+    drll23 = L2.DeltaR(L3);
+   }
+  
+   // check flavor channel
+   //
+   //if(fabs(flav1) * fabs(flav2) * fabs(flav3) == 11*11*11 ) _WgSt_channel = 1; // el, el, el 
+   //if(fabs(flav1) * fabs(flav2) * fabs(flav3) == 11*11*13 ) _WgSt_channel = 2; // el, el, mu
+   //if(fabs(flav1) * fabs(flav2) * fabs(flav3) == 11*13*13 ) _WgSt_channel = 3; // el, mu, mu
+   //if(fabs(flav1) * fabs(flav2) * fabs(flav3) == 13*13*13 ) _WgSt_channel = 4; // mu, mu, mu
+
+   if(mll12 >= 0)if(mll13 <  0)if(mll23 <  0)                  drll_small = drll12;
+   if(mll12 <  0)if(mll13 >= 0)if(mll23 <  0)                  drll_small = drll13;
+   if(mll12 <  0)if(mll13 <  0)if(mll23 >= 0)                  drll_small = drll23;
+
+   if(mll12 >= 0){if(mll13 >= 0){if(mll23 <  0){if(mll12 < mll13){drll_small = drll12;}else{drll_small = drll13;}}}}
+   if(mll12 >= 0){if(mll13 <  0){if(mll23 >= 0){if(mll12 < mll23){drll_small = drll12;}else{drll_small = drll23;}}}}
+   if(mll12 <  0){if(mll13 >= 0){if(mll23 >= 0){if(mll13 < mll23){drll_small = drll13;}else{drll_small = drll23;}}}}
+
+   if(mll12 >= 0)if(mll13 >= 0)if(mll23 >= 0)if(mll12 < mll13)if(mll12 < mll23){drll_small = drll12;}
+   if(mll12 >= 0)if(mll13 >= 0)if(mll23 >= 0)if(mll13 < mll12)if(mll13 < mll23){drll_small = drll13;}
+   if(mll12 >= 0)if(mll13 >= 0)if(mll23 >= 0)if(mll23 < mll12)if(mll23 < mll13){drll_small = drll23;}
+
+   return drll_small;
   }   
   else { //---- if third lepton is not good
    return -9999.0;
