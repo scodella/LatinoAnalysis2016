@@ -47,7 +47,7 @@ ElectonWP['Full2016'] = {
                                 # Common cuts
                                 'True' :
                                   [
-                                    'abs(itree.std_vector_lepton_eta[]) < 2.5' :
+                                    'abs(itree.std_vector_lepton_eta[]) < 2.5' ,
                                     'itree.std_vector_lepton_eleIdHLT[]',
                                     'itree.std_vector_lepton_eleIdTight[]', 
                                     'itree.std_vector_electron_expectedMissingInnerHits[] < 1',
@@ -138,5 +138,7 @@ MuonWP['Full2016'] = {
                        } ,
 
                  } ,
+
+}
 
 
