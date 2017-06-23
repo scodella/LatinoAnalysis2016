@@ -16,6 +16,7 @@ from LatinoAnalysis.Gardener.variables.triggerMaker               import trigger
 # id/isolation scale factors
 from LatinoAnalysis.Gardener.variables.idisoScaleFactors          import IdIsoSFFiller
 from LatinoAnalysis.Gardener.variables.multiIdisoScaleFactors     import MultiIdIsoSFFiller
+from LatinoAnalysis.Gardener.variables.idisoScaleFactorsStop      import IdIsoSFStopFiller
 
 
 # selections
@@ -23,6 +24,7 @@ from LatinoAnalysis.Gardener.variables.l2Sel                      import L2SelFi
 from LatinoAnalysis.Gardener.variables.l1Sel                      import L1SelFiller
 from LatinoAnalysis.Gardener.variables.LeptonSel                  import LeptonSel
 from LatinoAnalysis.Gardener.variables.TauCleaning                import TauCleaning 
+
 
 # kinematic variables
 from LatinoAnalysis.Gardener.variables.l2Kin                      import L2KinFiller
@@ -139,6 +141,7 @@ if __name__ == '__main__':
 # id/isolation scale factors
     modules['idisofiller'] = IdIsoSFFiller()
     modules['multiidiso']  = MultiIdIsoSFFiller()
+    modules['idisostopfiller'] = IdIsoSFStopFiller()
 
 # specific variables for MC
 
