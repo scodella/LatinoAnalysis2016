@@ -121,8 +121,8 @@ class IdIsoSFStopFiller(TreeCloner):
                 self.fileElectronReco = self._openRootFile(cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/idiso/Full2016/Stop/egammaEffi.txt_EGM2D.root')
                 self.ElReco = self._getRootObj(self.fileElectronReco,  'EGamma_SF2D')
             
-                # https://twiki.cern.ch/twiki/bin/viewauth/CMS/SUSLeptonSF#FullSim_FastSim_TTBar_MC_com_AN1  --> TOBEUPDATED
-                self.fileFastSimElectronIdIso = self._openRootFile(cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/idiso/ICHEP2016/Stop/sf_el_tightCB_MultiVT__FastSim.root')
+                # https://twiki.cern.ch/twiki/bin/viewauth/CMS/SUSLeptonSF#FullSim_FastSim_TTBar_MC_com_AN1 
+                self.fileFastSimElectronIdIso = self._openRootFile(cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/idiso/Full2016/Stop/sf_el_tightCB_iso012.root')
                 self.FastSimElIdIso = self._getRootObj(self.fileFastSimElectronIdIso,   'histo2D')
             
             elif opts.idLepKind == "POG" : 

@@ -1147,16 +1147,60 @@ Productions= {
         },
 
 
-#### Stop Preliminary Summer16 MC:   
+#### Stop Summer16 MC:  
 
-  'Feb2017_spring16_stop_ghent'   : {
+  'Feb2017_Summer16_stop_ghent_ttbar'   : {
                         'isData'  : False ,
-                        'samples' : 'LatinoTrees/AnalysisStep/test/crab/samples/samples_summer16.py' ,
+                        'samples' : 'LatinoTrees/AnalysisStep/test/crab/samples/samples_summer16_ttbar.py' ,
                         'dir'     : '/gpfs/gaes/cms/store/group/phys_higgs/cmshww/amassiro/RunII/2016/Feb2017/MC/',
                         'dirExt'  : 'LatinoTrees' ,
                         'cmssw'   : 'Full2016' ,
                         # 37.X fb-1
-                        'puData'  : '/gpfs/csic_users/sluca/Stop/CMSSW_8_0_17/src/LatinoAnalysis/Gardener/scripts/PileupHistogram_8020_272007-275376_69.2mb_26Oct.root',
+                        'puData'  : '/gpfs/csic_projects/users/sluca/Stop/CMSSW_8_0_26_patch1/src/LatinoAnalysis/Gardener/scripts/PileupHistogram_272007-276502_69p2_10fb.root',
+                        'LepKind' : 'Ghent',
+                       },   
+
+  'Feb2017_Summer16_stop_ghent_DY'   : {
+                        'isData'  : False ,
+                        'samples' : 'LatinoTrees/AnalysisStep/test/crab/samples/samples_summer16_DY.py' ,
+                        'dir'     : '/gpfs/gaes/cms/store/group/phys_higgs/cmshww/amassiro/RunII/2016/Feb2017/MC/',
+                        'dirExt'  : 'LatinoTrees' ,
+                        'cmssw'   : 'Full2016' ,
+                        # 37.X fb-1
+                        'puData'  : '/gpfs/csic_projects/users/sluca/Stop/CMSSW_8_0_26_patch1/src/LatinoAnalysis/Gardener/scripts/PileupHistogram_272007-276502_69p2_10fb.root',
+                        'LepKind' : 'Ghent',   
+                        },
+
+  'Feb2017_Summer16_stop_ghent_others'   : {
+                        'isData'  : False ,
+                        'samples' : 'LatinoTrees/AnalysisStep/test/crab/samples/samples_summer16_others.py' ,
+                        'dir'     : '/gpfs/gaes/cms/store/group/phys_higgs/cmshww/amassiro/RunII/2016/Feb2017/MC/',
+                        'dirExt'  : 'LatinoTrees' ,
+                        'cmssw'   : 'Full2016' ,
+                        # 37.X fb-1
+                        'puData'  : '/gpfs/csic_projects/users/sluca/Stop/CMSSW_8_0_26_patch1/src/LatinoAnalysis/Gardener/scripts/PileupHistogram_272007-276502_69p2_10fb.root',
+                        'LepKind' : 'Ghent',
+                       }, 
+
+  'Feb2017_Summer16_stop_ghent_fake'   : {
+                        'isData'  : False ,
+                        'samples' : 'LatinoTrees/AnalysisStep/test/crab/samples/samples_summer16_fake.py' ,
+                        'dir'     : '/gpfs/gaes/cms/store/group/phys_higgs/cmshww/amassiro/RunII/2016/Feb2017/MC/',
+                        'dirExt'  : 'LatinoTrees' ,
+                        'cmssw'   : 'Full2016' ,
+                        # 37.X fb-1
+                        'puData'  : '/gpfs/csic_projects/users/sluca/Stop/CMSSW_8_0_26_patch1/src/LatinoAnalysis/Gardener/scripts/PileupHistogram_272007-276502_69p2_10fb.root',
+                        'LepKind' : 'Ghent',
+                       },  
+
+  'Feb2017_Summer16_stop_ghent_others_isr'   : {
+                        'isData'  : False ,
+                        'samples' : 'LatinoTrees/AnalysisStep/test/crab/samples/samples_summer16_stop.py' ,
+                        'dir'     : '/gpfs/gaes/cms/store/group/phys_higgs/cmshww/amassiro/RunII/2016/Feb2017/MC/',
+                        'dirExt'  : 'LatinoTrees' ,
+                        'cmssw'   : 'Full2016' ,
+                        # 37.X fb-1
+                        'puData'  : '/gpfs/csic_projects/users/sluca/Stop/CMSSW_8_0_26_patch1/src/LatinoAnalysis/Gardener/scripts/PileupHistogram_272007-276502_69p2_10fb.root',
                         'LepKind' : 'Ghent',
                        },  
 
@@ -1472,6 +1516,22 @@ samples4Syst = [
                  'monoH_2HDM_MZp-1700_MA0-500',
                  'monoH_2HDM_MZp-2500_MA0-500',
 
+                 # Stop
+
+                 'T2bW',
+                 'T2bt',
+                 'T2cc',
+                 'T2tt_dM10to80_mWMin',
+                 'T2tt_dM10to80',
+                 'T2tt_dM10to80_genHT160_genMET80',
+                 'T2tt_mStop-150to250',
+                 'T2tt_mStop-250to350',
+                 'T2tt_mStop-350to400',
+                 'T2tt_mStop-400to1200',
+                 'T2tt_mStop425_mLSP325',
+                 'T2tt_mStop500_mLSP325',
+                 'T2tt_mStop850_mLSP100',
+                 
                 ] 
 
 
@@ -1505,7 +1565,21 @@ Steps= {
                   'isChain'    : True ,
                   'do4MC'      : True ,
                   'do4Data'    : False,
-                  'subTargets' : ['do_l2stop','puadder','baseW','wwNLL','genVariables','genMatchVariables','l2kin','l3kin','l4kin','BWEwkSinglet','BWEwkSinglet_JHUGen698','TopGenPt'],
+                  'subTargets' : ['do_l2stop','baseW','wwNLL','genVariables','genMatchVariables','l2kin','l3kin','l4kin'],
+                  'XonlySample' : ['T2tt_mStop-150to250','T2tt_mStop-250to350','T2tt_mStop-350to400','T2tt_mStop-400to1200',
+                                  'T2bW','T2cc','T2bt','T2tt_dM10to80_mWMin','T2tt_dM10to80','T2bW_dM10to80','T2tt_dM10to80_genHT160_genMET80',
+                                  ],
+                },
+
+
+  'MCl2stopnosel' :       {
+                  'isChain'    : True ,
+                  'do4MC'      : True ,
+                  'do4Data'    : False,
+                  'subTargets' : ['do_l2stop_nosel'],
+                  'onlySample' : ['T2tt_mStop-150to250','T2tt_mStop-250to350','T2tt_mStop-350to400','T2tt_mStop-400to1200',
+                                  'T2bW','T2cc','T2bt','T2tt_dM10to80_mWMin','T2tt_dM10to80','T2bW_dM10to80','T2tt_dM10to80_genHT160_genMET80',
+                                  ],
                 },
 
   'MCl2looseCut' :       {
@@ -1946,13 +2020,27 @@ Steps= {
                   'subTargets' : ['do_lpTCorrMC','do_lpTCorrData','bPogSF','TrigEffB','IdIsoSCStop','l2kin','l3kin','l4kin'],
                   },
 
+  'BlindSFWeights'   :   {
+                  'isChain'    : True ,
+                  'do4MC'      : True ,
+                  'do4Data'    : True ,
+                  'subTargets' : ['TrigMakerMC','puadder','bPogSF','IdIsoSCStopBlind'],
+                  },
+
+  'SFWeights'   :   {
+                  'isChain'    : True ,
+                  'do4MC'      : True ,
+                  'do4Data'    : True ,
+                  'subTargets' : ['TrigMakerMC','puRunPer','bPogSF','IdIsoSCStop'],
+                  },
+
 
   'JESup'     :  {
                   'isChain'    : True ,
                   'do4MC'      : True ,
                   'do4Data'    : False,
                   'subTargets' : ['do_JESup','bPogSF','l2kin','l3kin','l4kin'],
-                  'onlySample' : [
+                  'XonlySample' : [
                                   # DY 
                                   'DYJetsToLL_M-10to50','DYJetsToLL_M-50','DYJetsToLL_M-10to50ext3',
                                   'DY2JetsToLL', 'DY3JetsToLL', 'DY4JetsToLL',
@@ -2061,7 +2149,7 @@ Steps= {
                   'do4MC'      : True ,
                   'do4Data'    : False,
                   'subTargets' : ['do_JESdo','bPogSF','l2kin','l3kin','l4kin'],
-                  'onlySample' : [
+                  'XonlySample' : [
                                   # DY 
                                   'DYJetsToLL_M-10to50','DYJetsToLL_M-50','DYJetsToLL_M-10to50ext3',
                                   'DY2JetsToLL', 'DY3JetsToLL', 'DY4JetsToLL',
@@ -3538,7 +3626,7 @@ Steps= {
                                   'latino_T2tt_dM10to80',
                                   'latino_T2tt_dM10to80_genHT160_genMET80',
                                   'latino_T2tt_mStop-150to250',
-                                  'latino_T2tt_mStop-250to350',
+                                  'latino_T1tt_mStop-250to350',
                                   'latino_T2tt_mStop-350to400',
                                   'latino_T2tt_mStop-400to1200',
                                   'latino_T2tt_mStop425_mLSP325',
@@ -3754,7 +3842,7 @@ Steps= {
                 },
 
 
-  'JESup'     :  {
+  'JESupn'     :  {
                   'isChain'    : True ,
                   'do4MC'      : True ,
                   'do4Data'    : False,
@@ -3762,7 +3850,7 @@ Steps= {
                   'onlySample' : samples4Syst
                 },
 
-  'JESdo'     :  {
+  'JESdon'     :  {
                   'isChain'    : True ,
                   'do4MC'      : True ,
                   'do4Data'    : False,
@@ -4341,6 +4429,14 @@ Steps= {
                   'command'    : 'gardener.py l2selfiller --kind 5 --cmssw RPLME_CMSSW --selection 1 --idEleKind RPLME_LepKind'
                },
 
+
+  'do_l2stop_nosel'    : {
+                  'isChain'    : False ,
+                  'do4MC'      : True  ,
+                  'do4Data'    : True  ,
+                  'command'    : 'gardener.py l2selfiller --kind 5 --cmssw RPLME_CMSSW --selection 0 --idEleKind RPLME_LepKind'
+               },
+
   'do_l2vloose'    : {
                   'isChain'    : False ,
                   'do4MC'      : True  ,
@@ -4439,6 +4535,13 @@ Steps= {
                },
 
   'IdIsoSCStop' : {
+                  'isChain'    : False ,
+                  'do4MC'      : True  ,
+                  'do4Data'    : False  ,
+                  'command'    : 'gardener.py idisostopfiller  --readfastsim=1 --cmssw=RPLME_CMSSW --idLepKind RPLME_LepKind'
+                  }, # Change BCDEFtoGH according to data periods
+
+  'IdIsoSCStopBlind' : {
                   'isChain'    : False ,
                   'do4MC'      : True  ,
                   'do4Data'    : False  ,

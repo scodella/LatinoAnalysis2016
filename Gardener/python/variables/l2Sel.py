@@ -38,7 +38,7 @@ class L2SelFiller(TreeCloner):
         group = optparse.OptionGroup(parser,self.label, description)
         group.add_option('-k', '--kind',  dest='kind',  help='Kind of lepton identification to be applied [default is loose leptons]',  default='2')
         group.add_option('-c', '--cmssw', dest='cmssw', help='cmssw version (naming convention may change)', default='763', type='string')
-        group.add_option('-s', '--selection', dest='selection', help='apply some selections, like pt cuts', default=0)
+        group.add_option('-s', '--selection', dest='selection', help='apply some selections, like pt cuts', default=0, type='int')
         # new feature introduced for Full2016 (Jan 2017)
         group.add_option( '--idEleKind' , dest='idEleKind', help='kind of electron id', default=None) # e.g. "cut_WP_Tight80X"
         parser.add_option_group(group)
@@ -1680,7 +1680,7 @@ class L2SelFiller(TreeCloner):
               # Stop lepton definition     
 
               if self.kind == 5 :
-               
+
                 StopTag = self.isStopLepton(iLep)
                 
                 if StopTag == 1 :
@@ -1899,14 +1899,19 @@ class L2SelFiller(TreeCloner):
               if self.selection == 1 :
                 if new_std_vector_lepton_pt.at(0) > 18 and new_std_vector_lepton_pt.at(1) > 8 :
                   saveEvent = 1
+                  otree.Fill()
+                  savedentries+=1
                 else :
                   saveEvent = 0
                   
-              if saveEvent == 1: 
+              #if saveEvent == 1: 
+                #otree.Fill()
+                #savedentries+=1
+
+            if self.selection == 0 :
                 otree.Fill()
                 savedentries+=1
-
-
+            
         self.disconnect()
         print '- Eventloop completed'
         print '   Saved: ', savedentries, ' events'

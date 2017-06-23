@@ -155,7 +155,6 @@ for iProd in prodList :
   samples = {}
   prodDir = 'NONE'
   print '----------- Running on production: '+iProd
-  print 'gg ',os.uname()[1]
   # Load sample DB
   prodFile=CMSSW+'/src/'+Productions[iProd]['samples']
   handle = open(prodFile,'r')
@@ -192,7 +191,7 @@ for iProd in prodList :
       fileCmd = 'ls /pnfs/iihe/cms/store/user/xjanssen/HWW2015/RunII/'+prodDir.split('RunII/')[1]+Productions[iProd]['dirExt'] # +' | grep  ttDM0001scalar0010'
     else:
       fileCmd = 'ls /pnfs/iihe/cms/store/user/xjanssen/HWW2015/'+iProd+'/'+options.iStep
-  elif 'ifca' in os.uname()[1]:
+  elif 'cloud' in os.uname()[1]:
     if options.iStep == 'Prod' :
       fileCmd = 'ls '+prodDir+Productions[iProd]['dirExt'] # +' | grep  ttDM0001scalar0010'
     else:
@@ -225,7 +224,7 @@ for iProd in prodList :
           fileCmd = 'ls /pnfs/iihe/cms/store/user/xjanssen/HWW2015'+'/'+iProd+'/'+iStep #+' | grep  ttDM'
         else: 
           fileCmd = 'ls /pnfs/iihe/cms/store/user/xjanssen/HWW2015'+'/'+iProd+'/'+options.iStep+'__'+iStep
-      elif 'ifca' in os.uname()[1]:
+      elif 'cloud' in os.uname()[1]:
         if options.iStep == 'Prod' :
           fileCmd = 'ls '+eosTargBaseOut+'/'+iProd+'/'+iStep
         else:
@@ -299,7 +298,7 @@ for iProd in prodList :
                       targetList[iKey] = '/pnfs/iihe/cms/store/user/xjanssen/HWW2015/RunII/'+prodDir.split('RunII/')[1]+Productions[iProd]['dirExt']+'/'+iFile
                     else:
                       targetList[iKey] = '/pnfs/iihe/cms/store/user/xjanssen/HWW2015/'+iProd+'/'+options.iStep+'/'+iFile
-                  elif 'ifca' in os.uname()[1]:
+                  elif 'cloud' in os.uname()[1]:
                     if options.iStep == 'Prod' :
                       targetList[iKey] = prodDir+Productions[iProd]['dirExt']+'/'+iFile
                     else:
@@ -344,7 +343,7 @@ for iProd in prodList :
                     targetListBaseW[iKey] = '/pnfs/iihe/cms/store/user/xjanssen/HWW2015/RunII/'+prodDir.split('RunII/')[1]+Productions[iProd]['dirExt']+'/'+iFile
                   else:
                     targetListBaseW[iKey] = '/pnfs/iihe/cms/store/user/xjanssen/HWW2015/'+iProd+'/'+options.iStep+'/'+iFile
-                elif 'ifca' in os.uname()[1]:
+                elif 'cloud' in os.uname()[1]:
                   if options.iStep == 'Prod' :
                     targetListBaseW[iKey] = prodDir+Productions[iProd]['dirExt']+'/'+iFile
                   else:
@@ -381,7 +380,7 @@ for iProd in prodList :
       # Create Output Directory on eos
       if 'iihe' in os.uname()[1]:
         print 'Using LCG ...'
-      elif 'ifca' in os.uname()[1]:
+      elif 'cloud' in os.uname()[1]:
         if iStep == 'UEPS' :
           for iUEPS in Steps[iStep]['cpMap'] :
             os.system('mkdir -p '+eosTargBaseOut+'/'+iProd+'/'+startingStep+'__'+iUEPS)
@@ -459,7 +458,7 @@ for iProd in prodList :
             fileCmd = 'ls /pnfs/iihe/cms/store/user/xjanssen/HWW2015/RunII/'+prodDir.split('RunII/')[1]+Productions[iProd]['dirExt']
 #            else:
 #              fileCmd = 'ls /pnfs/iihe/cms/store/user/xjanssen/HWW2015/'+iProd+'/'+PrevStep
-          elif 'ifca' in os.uname()[1]:
+          elif 'cloud' in os.uname()[1]:
             PrevStep=''
             if '__' in options.iStep :
               SubSteps=options.iStep.split('__')
@@ -547,7 +546,7 @@ for iProd in prodList :
         else:  
           if 'iihe' in os.uname()[1]:
             command='cd '+wDir+' ; '
-          elif 'ifca' in os.uname()[1]:
+          elif 'cloud' in os.uname()[1]:
             command='cd /gpfs/csic_projects/cms/'+os.getlogin()+' ; ' 
           else:       
             command='cd /tmp/'+os.getlogin()+' ; '
@@ -556,7 +555,7 @@ for iProd in prodList :
         if iStep == 'hadd' :
           if 'iihe' in os.uname()[1]:
             command='cd '+wDir+' ; '
-          elif 'ifca' in os.uname()[1]:
+          elif 'cloud' in os.uname()[1]:
             command='cd /gpfs/csic_projects/cms/'+os.getlogin()+' ; ' 
           else:
             command+='cd /tmp/'+os.getlogin()+' ; '
@@ -565,7 +564,7 @@ for iProd in prodList :
           if len(targetList[iTarget]) == 1 :
             if 'iihe' in os.uname()[1]:
               outTree = 'srm://maite.iihe.ac.be:8443'+targetList[iTarget][0]
-            elif 'ifca' in os.uname()[1]:
+            elif 'cloud' in os.uname()[1]:
               outTree = '/'+targetList[iTarget][0]
             else:
               command += 'xrdcp '+targetList[iTarget][0]+' '+outTree+' ; '
@@ -699,7 +698,7 @@ for iProd in prodList :
            else: 
              if options.redo: command+='srmrm '+'srm://maite.iihe.ac.be:8443/pnfs/iihe/cms/store/user/xjanssen/HWW2015/'+iProd+'/'+startingStep+'__'+iStep+'/latino_'+iTarget+'.root;'
              command+='lcg-cp '+outTree+' '+'srm://maite.iihe.ac.be:8443/pnfs/iihe/cms/store/user/xjanssen/HWW2015/'+iProd+'/'+startingStep+'__'+iStep+'/latino_'+iTarget+'.root'
-         elif 'ifca' in os.uname()[1]:
+         elif 'cloud' in os.uname()[1]:
            if startingStep == 'Prod' :
              #print 'cp '+outTree+' '+eosTargBaseOut+'/'+iProd+'/'+iStep+'/latino_'+iTarget+'.root'
              command+='mv '+outTree+' '+eosTargBaseOut+'/'+iProd+'/'+iStep+'/latino_'+iTarget+'.root'

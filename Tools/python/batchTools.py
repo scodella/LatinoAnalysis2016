@@ -84,7 +84,7 @@ class batchJobs :
            jFile.write("cd /tmp/$LSB_JOBID \n")
            jFile.write("pwd \n")
 # mkdir: cannot create directory `/tmp/piedra/latinos': No such file or directory
-         elif 'ifca' in os.uname()[1]:
+         elif 'ifca' or 'cloud' in os.uname()[1]:
            jFile.write("cd /gpfs/csic_projects/cms/sluca/ \n") 
          else:
            jFile.write('cd - \n')
@@ -162,7 +162,7 @@ class batchJobs :
           #print 'qsub -q '+queue+' -o '+outFile+' -e '+errFile+' '+jobFile+' > '+jidFile
           jobid=os.system('qsub -q '+queue+' -o '+outFile+' -e '+errFile+' '+jobFile+' > '+jidFile)
           #print 'bsub -q '+queue+' -o '+outFile+' -e '+errFile+' '+jobFile+' > '+jidFile
-        elif 'ifca' in os.uname()[1] :
+        elif 'ifca' or 'cloud' in os.uname()[1] :
           jobid=os.system('qsub -P l.gaes -S /bin/bash -cwd -N Latino -o '+outFile+' -e '+errFile+' '+jobFile+' -j y > '+jidFile)
         elif "pi.infn.it" in socket.getfqdn():
           queue="cms"
@@ -180,7 +180,7 @@ class batchJobs :
      jFile = open(self.subDir+'/'+jName+'.sh','a') 
      if 'iihe' in os.uname()[1] :
         jFile.write('lcg-cp '+inputFile+' srm://maite.iihe.ac.be:8443/pnfs/iihe/cms'+outputFile+'\n')
-     elif 'ifca' in os.uname()[1] :
+     elif 'ifca' or 'cloud' in os.uname()[1] :
         jFile.write('mv '+inputFile+' /gpfs/gaes/cms'+outputFile+'\n')
      elif "pi.infn.it" in socket.getfqdn():   
         jFile.write('lcg-cp '+inputFile+' srm://stormfe1.pi.infn.it:8444/srm/managerv2?SFN=/cms'+outputFile+'\n')
@@ -221,7 +221,7 @@ def batchStatus():
             iStat = os.popen('cat '+jidFile+' | awk -F\'.\' \'{print $1}\' | xargs -n 1 qstat | grep localgrid | awk \'{print $5}\' ').read()
             if 'Q' in iStat : Pend[iStep]+=1
             else: Runn[iStep]+=1
-          elif 'ifca' in os.uname()[1] :
+          elif 'ifca' or 'cloud' in os.uname()[1] :
             iStat = os.popen('cat '+jidFile+' | awk -F\'.\' \'{print $1}\' | xargs -n 1 qstat | grep Latino | awk \'{print $5}\' ').read()
             if 'Q' in iStat : Pend[iStep]+=1
             else: Runn[iStep]+=1
@@ -264,9 +264,10 @@ def batchClean():
 
 def lsListCommand(inputDir):
     "Returns ls command on remote server directory (/store/...) in list format ( \n between every output )"
+    #print "ddd ", os.uname()[1]
     if 'iihe' in os.uname()[1] :
         return "ls -1 /pnfs/iihe/cms" + inputDir
-    elif 'ifca' in os.uname()[1] :
+    elif 'ifca' or 'cloud' in os.uname()[1] :
         return "ls /gpfs/gaes/cms/" + inputDir
     elif "pi.infn.it" in socket.getfqdn():
         return "ls /gpfs/ddn/srm/cms/" + inputDir
@@ -281,7 +282,7 @@ def rootReadPath(inputFile):
         return "dcap://maite.iihe.ac.be/pnfs/iihe/cms" + inputFile
     elif "pi.infn.it" in socket.getfqdn():
       return "/gpfs/ddn/srm/cms/" + inputFile
-    elif 'ifca' in os.uname()[1] :
+    elif 'ifca' or 'cloud' in os.uname()[1] :
       return "/gpfs/gaes/cms/" + inputFile
     elif 'knu' in os.uname()[1] :
       return "dcap://cluster142.knu.ac.kr//pnfs/knu.ac.kr/data/cms" + inputFile
@@ -295,7 +296,7 @@ def remoteFileSize(inputFile):
         return subprocess.check_output("ls -l " + inputFile + " | cut -d ' ' -f 5", shell=True)
       else:
         return subprocess.check_output("ls -l /pnfs/iihe/cms" + inputFile + " | cut -d ' ' -f 5", shell=True)
-    elif 'ifca' in os.uname()[1] :
+    elif 'ifca' or 'cloud' in os.uname()[1] :
         return subprocess.check_output("ls -l /gpfs/gaes/cms/" + inputFile + " | cut -d ' ' -f 5", shell=True)
     elif "pi.infn.it" in socket.getfqdn():
         return subprocess.check_output("ls -l /gpfs/ddn/srm/cms/" + inputFile + " | cut -d ' ' -f 5", shell=True)

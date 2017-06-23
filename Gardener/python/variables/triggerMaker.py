@@ -1,3 +1,4 @@
+
 import optparse
 import numpy
 import ROOT
@@ -523,7 +524,7 @@ class triggerCalculator():
               trail1lead2 = "triggerDoubleEleLegLowPt"
               trail2lead1 = "triggerDoubleEleLegLowPt"
               dz_eff_12 = self.DZEff_DoubleEle
-              
+             
           if abs(kindLep1) == 11 and abs(kindLep3) == 11 :
               lead1trail3 = "triggerDoubleEleLegHigPt"
               lead3trail1 = "triggerDoubleEleLegHigPt"
@@ -838,6 +839,7 @@ class triggerMaker(TreeCloner):
         self.nPeriods = len(Trigger.keys())
         LumiTot=0.
         for iPeriod in Trigger[opts.cmssw] : LumiTot += Trigger[opts.cmssw][iPeriod]['lumi']
+        #LumiTot=10.
         fSum = 0.
         self.fPeriods.append(fSum) 
         self.runPeriods = {}
